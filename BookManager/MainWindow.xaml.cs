@@ -30,5 +30,15 @@ namespace BookManager
         {
             new Book.BookWindow().ShowDialog();
         }
+
+        /// <summary>
+        /// ジャンルボタン押下イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Genre_Click(object sender, RoutedEventArgs e)
+        {
+            new Genre.GenreWindow().ShowDialog();
+        }
     }
 }
