@@ -31,6 +31,7 @@ namespace BookManagerTest.Genre
             vm.Genres[1].GenreName = "小説";
 
             vm.DeleteGenre("歴史");
+            vm.DeleteGenre("コンピュータ");   // 別にへんなの入れてもなにもおこらんよという試験(カバレッジ満たしたいのもある)
 
             Assert.IsFalse(vm.Genres.Any(x => x.GenreName == "歴史"));
         }

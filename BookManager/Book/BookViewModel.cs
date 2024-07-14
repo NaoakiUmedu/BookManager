@@ -30,9 +30,9 @@ namespace BookManager.Book
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">蔵書一覧モデルクラス</param>
-        public BookViewModel(IBookModelInterface? model = null)
+        public BookViewModel(IBookModelInterface model)
         {
-            this.model = model ?? this.model;
+            this.model = model;
         }
 
         /// <summary>

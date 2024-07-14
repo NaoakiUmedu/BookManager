@@ -27,6 +27,7 @@ namespace BookManager.Book
         /// </summary>
         public void Save(List<BookData> books)
         {
+            // TODO Operationをみてよろしくやる
             foreach(var book in books)
             {
                 dataAccess.InsertBook(book);

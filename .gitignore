@@ -4,6 +4,7 @@
 ## Get latest from `dotnet new gitignore`
 
 BookManagerTest/CoverageChecker/CoverageReport
+BookManagerTest/TestDb/*
 
 # dotenv files
 .env
