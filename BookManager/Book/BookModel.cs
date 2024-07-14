@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
-    internal class BookModel
+    internal class BookModel : IBookModelInterface
     {
         /// <summary>
         /// データアクセッサ
@@ -22,37 +22,6 @@ namespace BookManager.Book
             this.dataAccess = dataAccess ?? this.dataAccess;
         }
 
-        /// <summary>
-        /// 本を表すデータ
-        /// </summary>
-        public class BookData
-        {
-            /// <summary>
-            /// 書籍ID
-            /// </summary>
-            public Guid Id = Guid.NewGuid();
-            /// <summary>
-            /// 書名
-            /// </summary>
-            public string BookName = string.Empty;
-            /// <summary>
-            /// 著者名
-            /// </summary>
-            public string Auther = string.Empty;
-            /// <summary>
-            /// ジャンル
-            /// </summary>
-            public string Genre = string.Empty;
-            /// <summary>
-            /// 配置
-            /// </summary>
-            public string Position = string.Empty;
-            /// <summary>
-            /// 所属段ボール
-            /// </summary>
-            public string Box = string.Empty;
-        }
-        
         /// <summary>
         /// 本の一覧を保存する
         /// </summary>

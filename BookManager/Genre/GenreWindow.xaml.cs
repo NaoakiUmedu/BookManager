@@ -32,6 +32,8 @@ namespace BookManager.Genre
         /// <param name="e"></param>
         private void Button_Add_Click(object sender, RoutedEventArgs e)
         {
+            var vm = this.DataContext as GenreViewModel;
+            vm?.AddGenre();
         }
 
         /// <summary>
@@ -41,6 +43,20 @@ namespace BookManager.Genre
         /// <param name="e"></param>
         private void Button_Delete_Click(object sender, RoutedEventArgs e)
         {
+            var selectedGenreNames = new List<string>();
+            foreach (var item in GenreDataGrid.SelectedItems)
+            {
+                var si = item as GenreViewModel.GenreViewData;
+                if (si != null)
+                {
+                    selectedGenreNames.Add(si.GenreName);
+                }
+            }
+            foreach (var id in selectedGenreNames)
+            {
+                var vm = this.DataContext as GenreViewModel;
+                vm?.DeleteGenre(id);
+            }
         }
 
         /// <summary>

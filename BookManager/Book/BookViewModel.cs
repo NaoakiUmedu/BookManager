@@ -6,12 +6,34 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookManager.Book
 {
     internal class BookViewModel : INotifyPropertyChanged
     {
-        private readonly BookModel model = new BookModel();
+        /// <summary>
+        /// 蔵書一覧モデルクラス
+        /// </summary>
+        private readonly IBookModelInterface model = new BookModel();
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public BookViewModel()
+        {
+
+        }
+
+        /// <summary>
+        /// コンストラクタ(依存性注入用)
+        /// </summary>
+        /// <param name="model">蔵書一覧モデルクラス</param>
+        public BookViewModel(IBookModelInterface? model = null)
+        {
+            this.model = model ?? this.model;
+        }
 
         /// <summary>
         /// 蔵書一覧画面 画面表示データクラス
@@ -42,18 +64,12 @@ namespace BookManager.Book
             /// <summary>
             /// 所属段ボール
             /// </summary>
-            public string Carbonboard { get; set; } = string.Empty;
+            public string Box { get; set; } = string.Empty;
         }
         /// <summary>
         /// 画面表示データ
         /// </summary>
-        public ObservableCollection<BookViewData> BookViewDatas { get; set; } = new ObservableCollection<BookViewData>()
-        {
-            // 以下はレイアウト確認用のダミーデータ
-            new BookViewData(){Operation = OPERATION.NONE.ToString(), Id = Guid.NewGuid(), BookName="新世界より1", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Carbonboard="文庫1(エンタメ)"},
-            new BookViewData(){Operation = OPERATION.INSERT.ToString(), Id = Guid.NewGuid(), BookName="新世界より2", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Carbonboard="文庫1(エンタメ)"},
-            new BookViewData(){Operation = OPERATION.UPDATE.ToString(), Id = Guid.NewGuid(), BookName="新世界より3", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Carbonboard="文庫1(エンタメ)"}
-        };
+        public ObservableCollection<BookViewData> BookViewDatas { get; set; } = new ();
 
         // INotifyPropertyChangedの実装
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -67,7 +83,7 @@ namespace BookManager.Book
         /// </summary>
         internal void AddBook()
         {
-            BookViewDatas.Add(new BookViewData() { Operation = OPERATION.INSERT.ToString()});
+            BookViewDatas.Add(new BookViewData() { Operation = OPERATION.INSERT.ToString() });
         }
 
         /// <summary>
@@ -76,9 +92,9 @@ namespace BookManager.Book
         /// <param name="id">削除する本のID</param>
         internal void DeleteBook(Guid id)
         {
-            for(int i = 0; i < BookViewDatas.Count; i++)
+            for (int i = 0; i < BookViewDatas.Count; i++)
             {
-                if(id == BookViewDatas[i].Id)
+                if (id == BookViewDatas[i].Id)
                 {
                     BookViewDatas.RemoveAt(i);
                 }
@@ -90,19 +106,37 @@ namespace BookManager.Book
         /// </summary>
         internal void SaveBook()
         {
-            // TODO 保存する
+            var books = from book in BookViewDatas
+                        select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.BookName };
+
+            model.Save(books.ToList());
+        }
+
+        /// <summary>
+        /// 本の一覧を読み込み
+        /// </summary>
+        internal void ReadBook()
+        {
+
+            var books = model.Read();
+            var bookList = from book in books
+                            select new BookViewData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Box = book.BookName, Position = book.Position };
+
+            // 注意!丸々置き換えるとBindingが解ける!
+            BookViewDatas.Clear();
+            BookViewDatas.Concat(bookList);
         }
 
         /// <summary>
         /// 操作プルダウンの選択肢
         /// </summary>
-        public static ObservableCollection<String> OperationChoces { get; set; } =
-        [
+        public ObservableCollection<String> OperationChoces { get; set; } = new ObservableCollection<string>()
+        {
             OPERATION.NONE.ToString(),
             OPERATION.INSERT.ToString(),
             OPERATION.UPDATE.ToString(),
             OPERATION.DELETE.ToString(),
-        ];
+        };
 
 
         /// <summary>

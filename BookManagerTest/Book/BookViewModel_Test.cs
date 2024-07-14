@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 
 using BookManager.Book;
 
+using Moq;
+
 namespace BookManagerTest.Book
 {
     [TestClass]
@@ -12,9 +14,9 @@ namespace BookManagerTest.Book
         private ObservableCollection<BookViewData> testInputData { get; set; } = new ObservableCollection<BookViewData>()
         {
             // 以下はレイアウト確認用のダミーデータ
-            new BookViewData(){Id = Guid.NewGuid(), BookName="新世界より1", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Carbonboard="文庫1(エンタメ)"},
-            new BookViewData(){Id = Guid.NewGuid(), BookName="新世界より2", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Carbonboard="文庫1(エンタメ)"},
-            new BookViewData(){Id = Guid.NewGuid(), BookName="新世界より3", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Carbonboard="文庫1(エンタメ)"}
+            new BookViewData(){Id = Guid.NewGuid(), BookName="新世界より1", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Box="文庫1(エンタメ)"},
+            new BookViewData(){Id = Guid.NewGuid(), BookName="新世界より2", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Box="文庫1(エンタメ)"},
+            new BookViewData(){Id = Guid.NewGuid(), BookName="新世界より3", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Box="文庫1(エンタメ)"}
         };
 
         /// <summary>
@@ -66,6 +68,37 @@ namespace BookManagerTest.Book
             {
                 Assert.AreNotEqual(deleteId, book.Id);
             }
+        }
+
+        [TestMethod]
+        public void SaveRead_Test()
+        {
+            // Ararnge
+            var vm = new BookViewModel(model: CreateMock());
+            vm.BookViewDatas = testInputData;
+
+            // Action
+            vm.SaveBook();
+            vm.ReadBook();
+
+            for(int i = 0; i < vm.BookViewDatas.Count; i++)
+            {
+                // まあ全部はみなくていいでしょ...
+                Assert.AreEqual(testInputData[i].Id, vm.BookViewDatas[i].Id);
+            }
+        }
+
+        private IBookModelInterface CreateMock()
+        {
+            // testInputDataを元に作られるはずのデータ
+            var modelDatas = from book in testInputData
+                             select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.BookName };
+
+            // mockは↑を貰い、↑を返す
+            var moqModel = new Mock<IBookModelInterface>();
+            moqModel.Setup(x => x.Read()).Returns(modelDatas.ToList());
+
+            return moqModel.Object;
         }
     }
 }

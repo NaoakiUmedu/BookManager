@@ -15,7 +15,7 @@ namespace BookManagerTest.Book
 
             // Arrange
             var dataAccess = new SqliteBookDataAccess(TestDbTableCreateDelete.TEST_DB_FILE_PATH);
-            var book = new BookModel.BookData()
+            var book = new BookData()
             {
                 BookName = "ある明治人の記録",
                 Auther = "柴五郎",

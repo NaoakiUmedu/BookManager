@@ -27,9 +27,9 @@ namespace BookManager.Book
         /// 蔵書全件取得
         /// </summary>
         /// <returns>蔵書一覧</returns>
-        public List<BookModel.BookData> SelectAllBooks()
+        public List<BookData> SelectAllBooks()
         {
-            var result = new List<BookModel.BookData>();
+            var result = new List<BookData>();
             var quely = """SELECT * FROM book;""";
             using (var connection = new SqliteConnection(dbFilePath))
             {
@@ -40,7 +40,7 @@ namespace BookManager.Book
                     {
                         while (reader.Read())
                         {
-                            var book = new BookModel.BookData();
+                            var book = new BookData();
                             book.Id = Guid.Parse((string)reader["bookid"]);
                             book.BookName = (string)reader["bookname"];
                             book.Auther = (string)reader["author"];
@@ -60,7 +60,7 @@ namespace BookManager.Book
         /// 蔵書1冊を挿入
         /// </summary>
         /// <param name="book">蔵書</param>
-        public void InsertBook(BookModel.BookData book)
+        public void InsertBook(BookData book)
         {
             var quely = GenerateInsertQuery(book);
             using (var connection = new SqliteConnection(dbFilePath))
@@ -79,7 +79,7 @@ namespace BookManager.Book
         /// </summary>
         /// <param name="book">蔵書</param>
         /// <returns>INSERT文</returns>
-        private string GenerateInsertQuery(BookModel.BookData book)
+        private string GenerateInsertQuery(BookData book)
         {
             var query = string.Empty;
             query += $"INSERT INTO book";

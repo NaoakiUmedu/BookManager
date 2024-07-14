@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:BookManager.Book"
         xmlns:vm="clr-namespace:BookManager.Book"
         mc:Ignorable="d"
-        Title="蔵書一覧" Height="450" Width="800">
+        Title="蔵書一覧" Height="450" Width="800"
+        Loaded="Window_Loaded">
     <Window.DataContext>
         <vm:BookViewModel></vm:BookViewModel>
     </Window.DataContext>

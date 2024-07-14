@@ -221,8 +221,10 @@ var assemblies = [
   {
     "name": "BookManager",
     "classes": [
-      { "name": "BookManager.Book.BookModel", "rp": "BookManager_BookModel.html", "cl": 19, "ucl": 0, "cal": 19, "tl": 76, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "BookManager.Book.BookViewModel", "rp": "BookManager_BookViewModel.html", "cl": 25, "ucl": 5, "cal": 30, "tl": 95, "cb": 2, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "BookManager.Book.BookData", "rp": "BookManager_BookData.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 41, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "BookManager.Book.BookModel", "rp": "BookManager_BookModel.html", "cl": 14, "ucl": 0, "cal": 14, "tl": 45, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "BookManager.Book.BookViewModel", "rp": "BookManager_BookViewModel.html", "cl": 38, "ucl": 10, "cal": 48, "tl": 163, "cb": 3, "tb": 6, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "BookManager.Genre.GenreViewModel", "rp": "BookManager_GenreViewModel.html", "cl": 14, "ucl": 3, "cal": 17, "tl": 58, "cb": 1, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "BookManagerTest",
@@ -298,6 +300,10 @@ var assemblies = [
     ]},
   {
     "name": "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions",
+    "classes": [
+    ]},
+  {
+    "name": "Moq",
     "classes": [
     ]},
   {

@@ -16,12 +16,12 @@ namespace BookManagerTest.Book
         /// </summary>
         private class StubBookDataAccess : IBookDataAccess
         {
-            private List<BookModel.BookData>  books = new List<BookModel.BookData>();
+            private List<BookData>  books = new List<BookData>();
             /// <summary>
             /// 蔵書全件取得
             /// </summary>
             /// <returns>蔵書一覧</returns>
-            public List<BookModel.BookData> SelectAllBooks()
+            public List<BookData> SelectAllBooks()
             {
                 return books;
             }
@@ -30,7 +30,7 @@ namespace BookManagerTest.Book
             /// 蔵書1冊を挿入
             /// </summary>
             /// <param name="book">蔵書</param>
-            public void InsertBook(BookModel.BookData book) { books.Add(book); }
+            public void InsertBook(BookData book) { books.Add(book); }
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace BookManagerTest.Book
         {
             // Arrange
             var bookmodel = new BookModel(dataAccess:new StubBookDataAccess());
-            var books = new List<BookModel.BookData>()
+            var books = new List<BookData>()
             {
-                new BookModel.BookData()
+                new BookData()
                 {
                     BookName = "ある明治人の記録",
                     Auther = "柴五郎",
@@ -51,7 +51,7 @@ namespace BookManagerTest.Book
                     Position = "本棚(小)",
                     Box = "新書1"
                 },
-                new BookModel.BookData()
+                new BookData()
                 {
                     BookName = "中世への旅　農民戦争と傭兵",
                     Auther = "ハインリヒ ブレティヒャ",

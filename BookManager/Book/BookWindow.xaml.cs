@@ -31,7 +31,7 @@ namespace BookManager.Book
         /// <param name="e"></param>
         private void Button_Add_Click(object sender, RoutedEventArgs e)
         {
-            var vm = (BookViewModel)this.DataContext;
+            var vm = this.DataContext as BookViewModel;
             vm?.AddBook();
         }
 
@@ -65,9 +65,20 @@ namespace BookManager.Book
         /// <param name="e"></param>
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            // TODO Modelの保存処理を叩く
-            var vm = (BookViewModel)this.DataContext;
+            var vm = this.DataContext as BookViewModel;
             vm?.SaveBook();
+        }
+
+        /// <summary>
+        /// ウィンドウロードイベント処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            var vm = this.DataContext as BookViewModel;
+            vm?.ReadBook();
         }
     }
 }
