@@ -101,14 +101,53 @@ namespace BookManagerTest.Genre
         }
 
         /// <summary>
+        /// 前回Readしたデータが今回Updateしたと勘違いしてしまう事象に対応
+        /// </summary>
+        [TestMethod]
+        public void DuplicateRead_Test()
+        {
+            ObservableCollection<GenreViewModel.GenreViewData> firstData = [
+                new GenreViewModel.GenreViewData(){ GenreName = "歴史" },
+                new GenreViewModel.GenreViewData(){ GenreName = "小説" },
+                new GenreViewModel.GenreViewData(){ GenreName = "自然科学"}
+            ];
+            ObservableCollection<GenreViewModel.GenreViewData> secondData = [
+                new GenreViewModel.GenreViewData(){ GenreName = "歴史" },
+                new GenreViewModel.GenreViewData(){ GenreName = "小説" },
+                new GenreViewModel.GenreViewData(){ GenreName = "自然科学"},
+                new GenreViewModel.GenreViewData(){ GenreName = "音楽"}
+            ];
+
+            // Arrange
+            var stubModel = new GenreModelStub();
+
+            var vm = new GenreViewModel(stubModel);
+
+            // Action
+            SetGenreViewDatas(ref vm, firstData);
+            vm.Save();
+            vm.Read();
+            SetGenreViewDatas(ref vm, secondData);
+            vm.Save();
+            vm.Read();
+
+            // Assert
+            // Save()で例外を吐かないこと！
+        }
+
+        /// <summary>
         /// GenreViewDatasを設定する(ClearしてConcatする)
         /// </summary>
         /// <param name="vm">ViewModel</param>
         /// <param name="data">データ</param>
         private void SetGenreViewDatas(ref GenreViewModel vm, ObservableCollection<GenreViewModel.GenreViewData> data)
         {
+            // Concatではだめ
             vm.GenreViewDatas.Clear();
-            vm.GenreViewDatas.Concat(data);
+            foreach(var datum in data)
+            {
+                vm.GenreViewDatas.Add(datum);
+            }
         }
 
         /// <summary>
@@ -123,7 +162,14 @@ namespace BookManagerTest.Genre
             /// <param name=""></param>
             public void Insert(List<GenreData> data)
             {
-                this.innerData.Concat(data);
+                foreach(var datum in data)
+                {
+                    if(innerData.Exists(x => x.GenreName == datum.GenreName))
+                    {
+                        throw new Exception("同じデータをinsertするのはだめ！");
+                    }
+                    innerData.Add(datum);
+                }
             }
             /// <summary>
             /// 全件読み込み

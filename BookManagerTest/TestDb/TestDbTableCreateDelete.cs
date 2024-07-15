@@ -94,11 +94,11 @@ namespace BookManagerTest.TestDb
                         	-- 著者名
                         	author      TEXT,
                         	-- ジャンル
-                        	genre       TEXT    references genre(genrename),
+                        	genre       TEXT    references genre(genrename) ON DELETE NO ACTION,
                         	-- 配置
-                        	position    TEXT    references position(position),
+                        	position    TEXT    references position(position) ON DELETE NO ACTION,
                         	-- 所属段ボール
-                        	box         TEXT    references box(boxname)
+                        	box         TEXT    references box(boxname)  ON DELETE NO ACTION
                         );
                         
                         """;
