@@ -16,8 +16,7 @@ rem ターゲットアセンブリの格納先 (テストクラスがある場所)
 SET TARGET_TEST_DIR=%USERPROFILE%\Desktop\codes\BookManager\BookManagerTest\bin\Debug\net8.0-windows7.0
 
 REM カバレッジ計測対象 (テスト対象クラスのNAMESPACE)
-SET FILTERS= +[BookManager]* -[*]*.App -[*]*.*Window* -[*]*.*Sqlite* -[*]*.Resources -[*]*.Settings -[*]XamlGeneratedNamespace*
-REM " -[BookManager*]*Window*"
+SET FILTERS= +[BookManager]* -[*]*.App -[*]*.*Window* -[*]*.Resources -[*]*.Settings -[*]XamlGeneratedNamespace*
 
 REM パスの設定
 SET PATH=%PATH%;%OPEN_COVER%;%MS_TEST%;%REPORT_GEN%
