@@ -16,7 +16,7 @@ namespace BookManager.Book
         /// <summary>
         /// 蔵書一覧モデルクラス
         /// </summary>
-        private readonly IBookModelInterface model = new BookModel();
+        private readonly IBookModel model = new BookModel();
 
         /// <summary>
         /// コンストラクタ
@@ -30,7 +30,7 @@ namespace BookManager.Book
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">蔵書一覧モデルクラス</param>
-        public BookViewModel(IBookModelInterface model)
+        public BookViewModel(IBookModel model)
         {
             this.model = model;
         }

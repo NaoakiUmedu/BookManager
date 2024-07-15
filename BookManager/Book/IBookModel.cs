@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
-    public interface IBookModelInterface
+    public interface IBookModel
     {
 
         /// <summary>

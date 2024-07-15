@@ -88,14 +88,14 @@ namespace BookManagerTest.Book
             }
         }
 
-        private IBookModelInterface CreateMock()
+        private IBookModel CreateMock()
         {
             // testInputDataを元に作られるはずのデータ
             var modelDatas = from book in testInputData
                              select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.BookName };
 
             // mockは↑を貰い、↑を返す
-            var moqModel = new Mock<IBookModelInterface>();
+            var moqModel = new Mock<IBookModel>();
             moqModel.Setup(x => x.Read()).Returns(modelDatas.ToList());
 
             return moqModel.Object;

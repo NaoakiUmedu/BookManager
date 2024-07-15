@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
-    internal class BookModel : IBookModelInterface
+    internal class BookModel : IBookModel
     {
         /// <summary>
         /// データアクセッサ
