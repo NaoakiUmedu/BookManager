@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookManager.Genre
 {
-    internal interface IGenreDataAccess
+    public interface IGenreDataAccess
     {
         /// <summary>
         /// ジャンル全件取得

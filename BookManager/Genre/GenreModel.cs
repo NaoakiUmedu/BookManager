@@ -9,13 +9,28 @@ namespace BookManager.Genre
     internal class GenreModel : IGenreModel
     {
         /// <summary>
+        /// データアクセッサ(デフォルトでは本番環境)
+        /// </summary>
+        private IGenreDataAccess dataAccess = new SqliteGenreDataAccess();
+        /// <summary>
+        /// コンストラクタ(依存性注入用)
+        /// </summary>
+        /// <param name="dataAccess">データアクセッサ</param>
+        public GenreModel(IGenreDataAccess? dataAccess = null)
+        {
+            this.dataAccess = dataAccess ?? this.dataAccess;
+        }
+
+        /// <summary>
         /// ジャンルを挿入
         /// </summary>
         /// <param name=""></param>
         public void Insert(List<GenreData> data)
         {
-            // TODO
-            throw new NotImplementedException();
+            foreach(var datum in data)
+            {
+                dataAccess.InsertGenre(datum);
+            }
         }
         /// <summary>
         /// 全件読み込み
@@ -23,8 +38,7 @@ namespace BookManager.Genre
         /// <returns>データ</returns>
         public List<GenreData> Read()
         {
-            // TODO
-            throw new NotImplementedException();
+            return dataAccess.SelectAllGenre();
         }
         /// <summary>
         /// 指定したジャンルを削除
@@ -32,8 +46,10 @@ namespace BookManager.Genre
         /// <param name="data"></param>
         public void Delete(List<GenreData> data)
         {
-            // TODO
-            throw new NotImplementedException();
+            foreach (var datum in data)
+            {
+                dataAccess.DeleteGenre(datum);
+            }
         }
     }
 }
