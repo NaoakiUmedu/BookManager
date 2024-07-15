@@ -119,12 +119,14 @@ namespace BookManager.Book
         {
 
             var books = model.Read();
-            var bookList = from book in books
-                            select new BookViewData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Box = book.BookName, Position = book.Position };
 
             // 注意!丸々置き換えるとBindingが解ける!
+            // Concatでもだめらしい
             BookViewDatas.Clear();
-            BookViewDatas.Concat(bookList);
+            foreach(var book in books)
+            {
+                BookViewDatas.Add(new BookViewData() {Id=book.Id, Auther=book.Auther, BookName=book.BookName, Box=book.Box, Genre=book.Genre, Position=book.Position });
+            }
         }
 
         /// <summary>

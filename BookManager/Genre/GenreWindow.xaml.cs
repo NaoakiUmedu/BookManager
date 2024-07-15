@@ -66,6 +66,20 @@ namespace BookManager.Genre
         /// <param name="e"></param>
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
+            var vm = this.DataContext as GenreViewModel;
+            vm?.Save();
+            vm?.Read();
+        }
+
+        /// <summary>
+        /// ウィンドウロードイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var vm = this.DataContext as GenreViewModel;
+            vm?.Read();
         }
     }
 }

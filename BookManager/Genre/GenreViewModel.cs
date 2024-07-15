@@ -106,8 +106,14 @@ namespace BookManager.Genre
             var readGenre = model.Read();
             var readGenreViewData = from genre in readGenre
                                     select new GenreViewData() { GenreName = genre.GenreName };
+            
+            // べつのものを代入するとBindingが解ける
+            // Concatでもだめらしい
             GenreViewDatas.Clear();
-            GenreViewDatas.Concat(new ObservableCollection<GenreViewData>(readGenreViewData));
+            foreach(var datum in readGenreViewData)
+            {
+                GenreViewDatas.Add(datum);
+            }
 
             // Saveで差分を取るため、前回値を保存
             preData = readGenre;

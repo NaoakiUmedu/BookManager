@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:BookManager.Genre"
         xmlns:vm="clr-namespace:BookManager.Genre"
         mc:Ignorable="d"
-        Title="ジャンル一覧" Height="450" Width="440">
+        Title="ジャンル一覧" Height="450" Width="440"
+        Loaded="Window_Loaded">
     <Window.DataContext>
         <vm:GenreViewModel></vm:GenreViewModel>
     </Window.DataContext>
