@@ -1,0 +1,38 @@
+﻿<Window x:Class="BookManager.Box.BoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookManager.Box"
+        xmlns:vm="clr-namespace:BookManager.Box"
+        mc:Ignorable="d"
+        Title="段ボール一覧" Height="450" Width="440"
+        Loaded="Window_Loaded">
+    <Window.DataContext>
+        <vm:BoxViewModel></vm:BoxViewModel>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="280*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="100*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DataGrid Name="BoxDataGrid" ItemsSource="{Binding BoxViewDatas}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="1"
+                AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="段ボール" Binding="{Binding BoxName}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="追加" Name="Button_Add" Height="30"  Width="100" Grid.Row="1" Grid.Column="3" Click="Button_Add_Click"></Button>
+        <Button Content="削除" Name="Button_Delete" Height="30"  Width="100" Grid.Row="2" Grid.Column="3" Click="Button_Delete_Click"></Button>
+        <Button Content="保存" Name="Button_Save" Height="30"  Width="100" Grid.Row="4" Grid.Column="3" Click="Button_Save_Click"></Button>
+    </Grid>
+</Window>

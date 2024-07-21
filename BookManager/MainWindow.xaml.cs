@@ -40,5 +40,25 @@ namespace BookManager
         {
             new Genre.GenreWindow().ShowDialog();
         }
+
+        /// <summary>
+        /// 配置一覧ボタン押下イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Position_Click(object sender, RoutedEventArgs e)
+        {
+            new Position.PositionWindow().ShowDialog();
+        }
+
+        /// <summary>
+        /// 段ボール一覧ボタン押下イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Cardboard_Click(object sender, RoutedEventArgs e)
+        {
+            new Box.BoxWindow().ShowDialog();
+        }
     }
 }
