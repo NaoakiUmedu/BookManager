@@ -1,8 +1,10 @@
-﻿using System;
+﻿using BookManager.Box;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace BookManager.Book
 {
@@ -36,6 +38,17 @@ namespace BookManager.Book
         /// 所属段ボール
         /// </summary>
         public string Box = string.Empty;
+
+        public bool Equals(BookData? other)
+        {
+            if (other is null)
+                return false;
+
+            return this.Id == other.Id;
+        }
+
+        public override bool Equals(object? obj) => Equals(obj as BookData);
+        public override int GetHashCode() => (Id).GetHashCode();
     }
 
 }
