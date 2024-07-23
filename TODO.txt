@@ -6,7 +6,7 @@
 	■DAのテストを書く
 	■ViewからDBへのInsertを実装する
 	■ViewからDBへのDeleteを実装する
-	□DataにEqualを実装する/
+	■DataにEqualを実装する/
 	□ジャンル・配置・段ボールをプルダウンにする
 	□Viewで追加・修正・削除を実装する
 	□VMで追加・修正・削除を実装する

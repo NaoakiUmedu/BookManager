@@ -16,7 +16,19 @@ namespace BookManager.Book
         /// <summary>
         /// 蔵書一覧モデルクラス
         /// </summary>
-        private readonly IBookModel model = new BookModel();
+        private readonly IBookModel bookModel = new BookModel();
+        /// <summary>
+        /// 段ボールモデルクラス
+        /// </summary>
+        private readonly Box.IBoxModel boxModel = new Box.BoxModel();
+        /// <summary>
+        /// ジャンルモデルクラス
+        /// </summary>
+        private readonly Genre.IGenreModel genreModel = new Genre.GenreModel();
+        /// <summary>
+        /// 配置モデルクラス
+        /// </summary>
+        private readonly Position.IPositionModel positionModel = new Position.PositionModel();
 
         /// <summary>
         /// コンストラクタ
@@ -29,10 +41,17 @@ namespace BookManager.Book
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>
-        /// <param name="model">蔵書一覧モデルクラス</param>
-        public BookViewModel(IBookModel model)
+        /// <param name="bookModel">蔵書一覧モデルクラス</param>
+        public BookViewModel(
+            IBookModel? bookModel = null,
+            Box.IBoxModel? boxModel = null,
+            Genre.IGenreModel? genreModel = null,
+            Position.IPositionModel? positionModel = null)
         {
-            this.model = model;
+            this.bookModel = bookModel ?? this.bookModel;
+            this.boxModel = boxModel ?? this.boxModel;
+            this.genreModel = genreModel ?? this.genreModel;
+            this.positionModel = positionModel ?? this.positionModel;
         }
 
         /// <summary>
@@ -109,7 +128,7 @@ namespace BookManager.Book
             var books = from book in BookViewDatas
                         select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.BookName };
 
-            model.Save(books.ToList());
+            bookModel.Save(books.ToList());
         }
 
         /// <summary>
@@ -118,7 +137,7 @@ namespace BookManager.Book
         internal void ReadBook()
         {
 
-            var books = model.Read();
+            var books = bookModel.Read();
 
             // 注意!丸々置き換えるとBindingが解ける!
             // Concatでもだめらしい
@@ -140,6 +159,66 @@ namespace BookManager.Book
             OPERATION.DELETE.ToString(),
         };
 
+        /// <summary>
+        /// 段ボールプルダウンの選択肢
+        /// </summary>
+        public ObservableCollection<String> BoxChoces { get; set; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// ジャンルプルダウンの選択肢
+        /// </summary>
+        public ObservableCollection<String> GenreChoces { get; set; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// 配置プルダウンの選択肢
+        /// </summary>
+        public ObservableCollection<String> PositionChoces { get; set; } = new ObservableCollection<string>();
+
+        /// <summary>
+        /// プルダウン更新
+        /// </summary>
+        public void UpdatePulldown()
+        {
+            UpdateBoxPulldown();
+            UpdateGenrePulldown();
+            UpdatePositionPulldown();
+        }
+        /// <summary>
+        /// 段ボールプルダウン更新
+        /// </summary>
+        private void UpdateBoxPulldown()
+        {
+            var boxes = boxModel.Read();
+            BoxChoces.Clear();
+            foreach(var box in boxes)
+            {
+                BoxChoces.Add(box.BoxName);
+            }
+        }
+        /// <summary>
+        /// ジャンルプルダウン更新
+        /// </summary>
+        private void UpdateGenrePulldown()
+        {
+            var genres = genreModel.Read();
+            GenreChoces.Clear();
+            foreach(var genre in genres)
+            {
+                GenreChoces.Add(genre.GenreName);
+            }
+        }
+        /// <summary>
+        /// 配置プルダウン更新
+        /// </summary>
+        private void UpdatePositionPulldown()
+        {
+            var positions = positionModel.Read();
+            PositionChoces.Clear();
+            foreach(var position in positions)
+            {
+                PositionChoces.Add(position.Position);
+            }
+        }
 
         /// <summary>
         /// 操作を表すenum
