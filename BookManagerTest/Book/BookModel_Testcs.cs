@@ -31,6 +31,34 @@ namespace BookManagerTest.Book
             /// </summary>
             /// <param name="book">蔵書</param>
             public void InsertBook(BookData book) { books.Add(book); }
+            /// <summary>
+            /// 蔵書1冊を削除
+            /// </summary>
+            /// <param name="book">蔵書<param>
+            public void DeleteBook(BookData book)
+            {
+                for(int i = 0; i < books.Count; i++)
+                {
+                    if(book.Id == books[i].Id)
+                    {
+                        books.RemoveAt(i);
+                    }
+                }
+            }
+            /// <summary>
+            /// 蔵書1冊を更新
+            /// </summary>
+            /// <param name="book">蔵書<param>
+            public void UpdateBook(BookData book)
+            {
+                for (int i = 0; i < books.Count; i++)
+                {
+                    if (book.Id == books[i].Id)
+                    {
+                        books[i] = book;
+                    }
+                }
+            }
         }
 
         /// <summary>

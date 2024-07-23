@@ -19,5 +19,15 @@ namespace BookManager.Book
         /// </summary>
         /// <param name="book">蔵書</param>
         public void InsertBook(BookData book);
+        /// <summary>
+        /// 蔵書1冊を削除
+        /// </summary>
+        /// <param name="book">蔵書</param>
+        public void DeleteBook(BookData book);
+        /// <summary>
+        /// 蔵書1冊を更新
+        /// </summary>
+        /// <param name="book">蔵書</param>
+        public void UpdateBook(BookData book);
     }
 }

@@ -33,7 +33,7 @@ namespace BookManager.Box
         public List<BoxData> SelectAllBox()
         {
             var result = new List<BoxData>();
-            var quely = """SELECT * FROM Box;""";
+            var quely = """SELECT * FROM box;""";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
@@ -44,7 +44,7 @@ namespace BookManager.Box
                         while (reader.Read())
                         {
                             var Box = new BoxData();
-                            Box.BoxName = (string)reader["Boxname"];
+                            Box.BoxName = (string)reader["boxname"];
                             result.Add(Box);
                         }
                     }
@@ -57,10 +57,10 @@ namespace BookManager.Box
         /// <summary>
         /// 段ボールを挿入
         /// </summary>
-        /// <param name="Box">段ボール</param>
-        public void InsertBox(BoxData Box)
+        /// <param name="box">段ボール</param>
+        public void InsertBox(BoxData box)
         {
-            var quely = $"INSERT INTO Box (Boxname) VALUES ('{Box.BoxName}')";
+            var quely = $"INSERT INTO box (boxname) VALUES ('{box.BoxName}')";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
@@ -75,10 +75,10 @@ namespace BookManager.Box
         /// <summary>
         /// 段ボールを削除
         /// </summary>
-        /// <param name="Box">段ボール</param>
-        public void DeleteBox(BoxData Box)
+        /// <param name="box">段ボール</param>
+        public void DeleteBox(BoxData box)
         {
-            var quely = $"DELETE FROM Box WHERE Boxname = '{Box.BoxName}'";
+            var quely = $"DELETE FROM box WHERE boxname = '{box.BoxName}'";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();

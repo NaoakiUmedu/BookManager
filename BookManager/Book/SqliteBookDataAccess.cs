@@ -90,5 +90,73 @@ namespace BookManager.Book
             query += $"('{book.Id.ToString()}', '{book.BookName}', '{book.Auther}', '{book.Genre}', '{book.Position}', '{book.Box}')";
             return query;
         }
-    }
+
+        /// <summary>
+        /// 蔵書1冊を削除
+        /// </summary>
+        /// <param name="book">蔵書</param>
+        public void DeleteBook(BookData book)
+        {
+            var quely = GenerataDeleteQuery(book);
+            using (var connection = new SqliteConnection(dbFilePath))
+            {
+                connection.Open();
+                using (var command = new SqliteCommand(quely, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+        /// <summary>
+        /// DELETE文を発行
+        /// </summary>
+        /// <param name="book">本</param>
+        /// <returns>DELETE文</returns>
+        private string GenerataDeleteQuery(BookData book)
+        {
+            var query = string.Empty;
+            query += $"DELETE FROM book WHERE bookid = '{book.Id}';";
+            return query;
+        }
+
+        /// <summary>
+        /// 蔵書1冊を更新
+        /// </summary>
+        /// <param name="book">蔵書</param>
+        public void UpdateBook(BookData book)
+        {
+            var quely = GenerateUpdateQuery(book);
+            using (var connection = new SqliteConnection(dbFilePath))
+            {
+                connection.Open();
+                using (var command = new SqliteCommand(quely, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+        /// <summary>
+        /// UPDATE文を発行
+        /// </summary>
+        /// <param name="book">蔵書</param>
+        /// <returns>UPDATE文</returns>
+        private string GenerateUpdateQuery(BookData book)
+        {
+            var query = string.Empty;
+            query += "UPDATE book";
+            query += " ";
+            query += "SET";
+            query += $"   bookid = '{book.Id}',";
+            query += $"   bookname = '{book.BookName}',";
+            query += $"   author = '{book.Auther}',";
+            query += $"   genre = '{book.Genre}',";
+            query += $"   position = '{book.Position}',";
+            query += $"   box = '{book.Box}'";
+            query += " ";
+            query += $"WHERE bookid = '{book.Id}';";
+            return query;
+        }
+}
 }
