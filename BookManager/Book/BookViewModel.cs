@@ -128,7 +128,7 @@ namespace BookManager.Book
             var books = from book in BookViewDatas
                         select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.BookName };
 
-            bookModel.Save(books.ToList());
+            bookModel.Insert(books.ToList());   // TODO CUDを分ける
         }
 
         /// <summary>

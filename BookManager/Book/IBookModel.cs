@@ -8,11 +8,23 @@ namespace BookManager.Book
 {
     public interface IBookModel
     {
+        /// <summary>
+        /// 本を追加する
+        /// </summary>
+        /// <param name="books">本</param>
+        public void Insert(List<BookData> books);
 
         /// <summary>
-        /// 本の一覧を保存する
+        /// 本を更新する
         /// </summary>
-        public void Save(List<BookData> books);
+        /// <param name="books">本</param>
+        public void Update(List<BookData> books);
+
+        /// <summary>
+        /// 本を削除する
+        /// </summary>
+        /// <param name="books">本</param>
+        public void Delete(List<BookData> books);
 
         /// <summary>
         /// 本の一覧を読みこむ
