@@ -106,29 +106,30 @@ namespace BookManager.Book
         }
 
         /// <summary>
-        /// 当該IDを削除
-        /// </summary>
-        /// <param name="id">削除する本のID</param>
-        internal void DeleteBook(Guid id)
-        {
-            for (int i = 0; i < BookViewDatas.Count; i++)
-            {
-                if (id == BookViewDatas[i].Id)
-                {
-                    BookViewDatas.RemoveAt(i);
-                }
-            }
-        }
-
-        /// <summary>
         /// 本を保存する
         /// </summary>
         internal void SaveBook()
         {
-            var books = from book in BookViewDatas
-                        select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.BookName };
+            // 追加
+            var willInsert = from book in BookViewDatas
+                                        where book.Operation == OPERATION.INSERT.ToString()
+                                        select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
+            bookModel.Insert(willInsert.ToList());
 
-            bookModel.Insert(books.ToList());   // TODO CUDを分ける
+            // 更新
+            var willUpdate = from book in BookViewDatas
+                             where book.Operation == OPERATION.UPDATE.ToString()
+                             select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
+            bookModel.Update(willUpdate.ToList());
+
+            // 削除
+            var willDelete = from book in BookViewDatas
+                             where book.Operation == OPERATION.DELETE.ToString()
+                             select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
+            bookModel.Delete(willDelete.ToList());
+
+            // 読み直す
+            ReadBook();
         }
 
         /// <summary>

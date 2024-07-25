@@ -8,6 +8,8 @@ using Moq;
 using BookManager.Box;
 using BookManager.Genre;
 using BookManager.Position;
+using System.Net.Http.Headers;
+using System.Runtime.Intrinsics.X86;
 
 namespace BookManagerTest.Book
 {
@@ -37,42 +39,6 @@ namespace BookManagerTest.Book
             Assert.AreEqual(before + 1, vm.BookViewDatas.Count);
         }
 
-        /// <summary>
-        /// DeleteBook_OK
-        /// </summary>
-        [TestMethod]
-        public void DeleteBook_OK_Test()
-        {
-            var vm = new BookViewModel();
-            vm.BookViewDatas = testInputData;
-            var deleteData = testInputData[1];
-
-            vm.DeleteBook(deleteData.Id);
-
-            foreach (var book in vm.BookViewDatas)
-            {
-                Assert.AreNotEqual(deleteData.Id, book.Id);
-            }
-        }
-
-        /// <summary>
-        /// DeleteBook_NG(存在しないID)
-        /// </summary>
-        [TestMethod]
-        public void DeleteBook_NG_NOWHERE_ID_Test()
-        {
-            var vm = new BookViewModel();
-            vm.BookViewDatas = testInputData;
-            var deleteId = Guid.NewGuid();
-
-            vm.DeleteBook(deleteId);
-
-            foreach (var book in vm.BookViewDatas)
-            {
-                Assert.AreNotEqual(deleteId, book.Id);
-            }
-        }
-
         [TestMethod]
         public void SaveRead_Test()
         {
@@ -84,10 +50,40 @@ namespace BookManagerTest.Book
             vm.SaveBook();
             vm.ReadBook();
 
-            for(int i = 0; i < vm.BookViewDatas.Count; i++)
+            for (int i = 0; i < vm.BookViewDatas.Count; i++)
             {
                 // まあ全部はみなくていいでしょ...
                 Assert.AreEqual(testInputData[i].Id, vm.BookViewDatas[i].Id);
+            }
+        }
+
+        [TestMethod]
+        public void Save_Test()
+        {
+            var updateData = new ObservableCollection<BookViewData>(testInputData);
+            updateData[1].Operation = OPERATION.UPDATE.ToString();
+            updateData[1].Box = "本棚(大)";
+            updateData[2].Operation = OPERATION.DELETE.ToString();
+            
+            var mock = new Mock<IBookModel>();
+            var willReturn = new List<BookData>()
+            {
+                new BookData(){Id = Guid.NewGuid(), BookName="新世界より1", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Box="文庫1(エンタメ)"},
+                new BookData(){Id = Guid.NewGuid(), BookName="新世界より2", Auther="貴志祐介", Genre="小説", Position="本棚(大)", Box="文庫1(エンタメ)"},
+            };
+            mock.Setup(x => x.Read()).Returns(willReturn);
+
+            var vm = new BookViewModel(mock.Object);
+            vm.BookViewDatas = testInputData;
+            vm.SaveBook();
+
+            vm.BookViewDatas = updateData;
+            vm.SaveBook();
+            vm.ReadBook();
+
+            for (int i = 0; i < vm.BookViewDatas.Count; i++)
+            {
+                Assert.AreEqual(updateData[i].Id, vm.BookViewDatas[i].Id);
             }
         }
 
@@ -123,7 +119,7 @@ namespace BookManagerTest.Book
             var genreMock = new Mock<IGenreModel>();
             genreMock.Setup(x => x.Read()).Returns(genreList);
 
-            var positionList = new List<PositionData>() { 
+            var positionList = new List<PositionData>() {
                 new PositionData(){Position = "所属段ボール"},
                 new PositionData(){Position = "本棚(小)"}
             };
@@ -139,7 +135,7 @@ namespace BookManagerTest.Book
 
             // Assert
             Assert.AreEqual(boxList.Count, vm.BoxChoces.Count);
-            for(var i = 0; i < boxList.Count; i++)
+            for (var i = 0; i < boxList.Count; i++)
             {
                 Assert.AreEqual(boxList[i].BoxName, vm.BoxChoces[i]);
             }

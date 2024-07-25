@@ -36,29 +36,6 @@ namespace BookManager.Book
         }
 
         /// <summary>
-        /// 削除ボタン押下処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Delete_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedBookId = new List<Guid>();
-            foreach(var item in DataGrid_Book.SelectedItems)
-            {
-                var si = item as BookViewModel.BookViewData;
-                if (si != null)
-                {
-                    selectedBookId.Add(si.Id);
-                }
-            }
-            foreach(var id in selectedBookId)
-            {
-                var vm = (BookViewModel)this.DataContext;
-                vm?.DeleteBook(id);
-            }
-        }
-
-        /// <summary>
         /// 保存ボタン押下
         /// </summary>
         /// <param name="sender"></param>
