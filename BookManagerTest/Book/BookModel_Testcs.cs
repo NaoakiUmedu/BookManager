@@ -108,6 +108,7 @@ namespace BookManagerTest.Book
         /// <summary>
         /// 本を更新するテスト
         /// </summary>
+        [TestMethod]
         public void UpdateBook_Test()
         {
             var id = Guid.NewGuid();
