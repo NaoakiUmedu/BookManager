@@ -1,10 +1,12 @@
 ﻿using BookManager.Book;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace BookManagerTest.Book
 {
@@ -68,7 +70,7 @@ namespace BookManagerTest.Book
         public void InsertBook_Test()
         {
             // Arrange
-            var bookmodel = new BookModel(dataAccess:new StubBookDataAccess());
+            var bookmodel = new BookModel(dbDa:new StubBookDataAccess());
             var books = new List<BookData>()
             {
                 new BookData()
@@ -136,7 +138,7 @@ namespace BookManagerTest.Book
             } };
 
             // Arrange
-            var bookmodel = new BookModel(dataAccess: new StubBookDataAccess());
+            var bookmodel = new BookModel(dbDa: new StubBookDataAccess());
             bookmodel.Insert(books);
             bookmodel.Update(updatedBooks);
 
@@ -162,7 +164,7 @@ namespace BookManagerTest.Book
         {
             // Arrange
             var deleteId = Guid.NewGuid();
-            var bookmodel = new BookModel(dataAccess: new StubBookDataAccess());
+            var bookmodel = new BookModel(dbDa: new StubBookDataAccess());
             var books = new List<BookData>()
             {
                 new BookData()
@@ -204,6 +206,86 @@ namespace BookManagerTest.Book
                 Assert.AreEqual(books[1].Genre, readed[i].Genre);
                 Assert.AreEqual(books[1].Position, readed[i].Position);
                 Assert.AreEqual(books[1].Box, readed[i].Box);
+            }
+        }
+
+        /// <summary>
+        /// エクスポートテスト
+        /// </summary>
+        [TestMethod]
+        public void Export_Test()
+        {
+            var filePath = @"C:\Users\anija\Desktop\codes\BookManager\BookManagerTest\TestDb\Test.tsv";
+            var books = new List<BookData>()
+            {
+                new BookData()
+                {
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookData()
+                {
+                    BookName = "中世への旅　農民戦争と傭兵",
+                    Auther = "ハインリヒ ブレティヒャ",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                }
+            };
+
+            var mock = new Mock<IImportExportBookDataAccess>();
+            mock.Setup(x => x.ExportBooks(filePath, books)).Verifiable();
+
+            var model = new BookModel(importExportDataAccesser: mock.Object);
+            model.Export(filePath, books);
+
+            mock.Verify();
+        }
+
+        /// <summary>
+        /// インポートテスト
+        /// </summary>
+        public void Import_Test()
+        {
+            var filePath = @"C:\Users\anija\Desktop\codes\BookManager\BookManagerTest\TestDb\Test.tsv";
+            var books = new List<BookData>()
+            {
+                new BookData()
+                {
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookData()
+                {
+                    BookName = "中世への旅　農民戦争と傭兵",
+                    Auther = "ハインリヒ ブレティヒャ",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                }
+            };
+
+            var stub = new Mock<IImportExportBookDataAccess>();
+            stub.Setup(x => x.ImportBooks(filePath)).Returns(books);
+
+            var model = new BookModel(importExportDataAccesser: stub.Object);
+            var imported = model.Import(filePath);
+
+            Assert.AreEqual(1, imported.Count);
+            for (var i = 0; i < imported.Count; i++)
+            {
+                Assert.AreEqual(books[1].Id, imported[i].Id);
+                Assert.AreEqual(books[1].BookName, imported[i].BookName);
+                Assert.AreEqual(books[1].Auther, imported[i].Auther);
+                Assert.AreEqual(books[1].Genre, imported[i].Genre);
+                Assert.AreEqual(books[1].Position, imported[i].Position);
+                Assert.AreEqual(books[1].Box, imported[i].Box);
             }
         }
     }

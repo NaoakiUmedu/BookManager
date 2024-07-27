@@ -9,17 +9,25 @@ namespace BookManager.Book
     internal class BookModel : IBookModel
     {
         /// <summary>
-        /// データアクセッサ
+        /// DB用データアクセッサ
         /// </summary>
-        private IBookDataAccess dataAccess = new SqliteBookDataAccess();
+        private IBookDataAccess dbDataAccesser = new SqliteBookDataAccess();
+        /// <summary>
+        /// インポート・エクスポート用データアクセッサ
+        /// </summary>
+        private IImportExportBookDataAccess importExportDataAccesser = new TsvBookDataAccess();
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="dataAccess">データアクセッサ</param>
-        public BookModel(IBookDataAccess? dataAccess = null)
+        /// <param name="dbDa">データアクセッサ</param>
+        /// <param name="importExportDataAccesser">インポート・エクスポート用データアクセッサ</par
+        public BookModel(
+            IBookDataAccess? dbDa = null,
+            IImportExportBookDataAccess? importExportDataAccesser = null)
         {
-            this.dataAccess = dataAccess ?? this.dataAccess;
+            this.dbDataAccesser = dbDa ?? this.dbDataAccesser;
+            this.importExportDataAccesser = importExportDataAccesser ?? this.importExportDataAccesser;
         }
 
         /// <summary>
@@ -28,7 +36,7 @@ namespace BookManager.Book
         /// <returns></returns>
         public List<BookData> Read()
         {
-            return dataAccess.SelectAllBook();
+            return dbDataAccesser.SelectAllBook();
         }
 
         /// <summary>
@@ -39,7 +47,7 @@ namespace BookManager.Book
         {
             foreach(var book in books)
             {
-                dataAccess.InsertBook(book);
+                dbDataAccesser.InsertBook(book);
             }
         }
 
@@ -51,7 +59,7 @@ namespace BookManager.Book
         {
             foreach (var book in books)
             {
-                dataAccess.UpdateBook(book);
+                dbDataAccesser.UpdateBook(book);
             }
         }
 
@@ -63,8 +71,28 @@ namespace BookManager.Book
         {
             foreach (var book in books)
             {
-                dataAccess.DeleteBook(book);
+                dbDataAccesser.DeleteBook(book);
             }
+        }
+
+        /// <summary>
+        /// ファイルエクスポート
+        /// </summary>
+        /// <param name="filePath">ファイルパス</param>
+        /// <param name="books">本</param>
+        public void Export(string filePath, List<BookData> books)
+        {
+            importExportDataAccesser.ExportBooks(filePath, books);
+        }
+
+        /// <summary>
+        /// ファイルインポート
+        /// </summary>
+        /// <param name="filePath">ファイルパス</param>
+        /// <returns>本</returns>
+        public List<BookData> Import(string filePath)
+        {
+            return importExportDataAccesser.ImportBooks(filePath);
         }
     }
 }

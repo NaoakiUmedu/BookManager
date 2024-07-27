@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
-    internal interface IImportExportBookDataAccess
+    public interface IImportExportBookDataAccess
     {
         /// <summary>
         /// 蔵書全件取得
