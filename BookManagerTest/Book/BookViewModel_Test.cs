@@ -10,6 +10,7 @@ using BookManager.Genre;
 using BookManager.Position;
 using System.Net.Http.Headers;
 using System.Runtime.Intrinsics.X86;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookManagerTest.Book
 {
@@ -65,12 +66,12 @@ namespace BookManagerTest.Book
             updateData[1].Box = "本棚(大)";
             updateData[2].Operation = OPERATION.DELETE.ToString();
             
-            var mock = new Mock<IBookModel>();
             var willReturn = new List<BookData>()
             {
                 new BookData(){Id = Guid.NewGuid(), BookName="新世界より1", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Box="文庫1(エンタメ)"},
                 new BookData(){Id = Guid.NewGuid(), BookName="新世界より2", Auther="貴志祐介", Genre="小説", Position="本棚(大)", Box="文庫1(エンタメ)"},
             };
+            var mock = new Mock<IBookModel>();
             mock.Setup(x => x.Read()).Returns(willReturn);
 
             var vm = new BookViewModel(mock.Object);
@@ -85,6 +86,81 @@ namespace BookManagerTest.Book
             {
                 Assert.AreEqual(updateData[i].Id, vm.BookViewDatas[i].Id);
             }
+        }
+
+        /// <summary>
+        /// 保存押したときに外部キーが足りなかったらInsertしてあげるテスト
+        /// </summary>
+        [TestMethod]
+        public void SaveWithReferenceKey_Test()
+        {
+            var inputData = new ObservableCollection<BookViewData>()
+            {
+                new BookViewData()
+                {
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookViewData()
+                {
+                    BookName = "数学再入門",
+                    Auther = "長岡亮介",
+                    Genre = "自然科学",
+                    Position = "本棚(大)",
+                    Box = "自然科学1"
+                }
+            };
+            var willReturn = new List<BookData>()
+            {
+                new BookData()
+                {
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookData()
+                {
+                    BookName = "数学再入門",
+                    Auther = "長岡亮介",
+                    Genre = "自然科学",
+                    Position = "本棚(大)",
+                    Box = "自然科学1"
+                }
+            };
+
+            var mock = new Mock<IBookModel>();
+            mock.Setup(x => x.Read()).Returns(willReturn);
+
+            var box = new Mock<IBoxModel>();
+            box.Setup(x => x.Read()).Returns(new List<BoxData>() { new BoxData { BoxName = "新書1" } });
+            box.Setup(x => x.Insert(new List<BoxData>() { new BoxData { BoxName = "自然科学1" } })).Verifiable();
+
+            var genre = new Mock<IGenreModel>();
+            genre.Setup(x => x.Read()).Returns(new List<GenreData>() { new GenreData { GenreName = "自然科学" } });
+            genre.Setup(x => x.Insert(new List<GenreData>() { new GenreData { GenreName = "歴史" } })).Verifiable();
+
+            var position = new Mock<IPositionModel>();
+            position.Setup(x => x.Read()).Returns(new List<PositionData>() { new PositionData { Position = "本棚(小)" } });
+            position.Setup(x => x.Insert(new List<PositionData>() { new PositionData { Position = "本棚(大)" } })).Verifiable();
+
+            var vm = new BookViewModel(mock.Object, box.Object, genre.Object, position.Object);
+            vm.BookViewDatas = inputData;
+            vm.SaveBook();
+            vm.ReadBook();
+
+            for (int i = 0; i < vm.BookViewDatas.Count; i++)
+            {
+                Assert.AreEqual(willReturn[i].Id, vm.BookViewDatas[i].Id);
+            }
+
+            box.Verify();
+            genre.Verify();
+            position.Verify();
         }
 
         private IBookModel CreateMock()

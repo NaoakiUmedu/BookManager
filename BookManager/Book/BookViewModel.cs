@@ -8,6 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using BookManager.Box;
+using BookManager.Genre;
+using BookManager.Position;
 
 namespace BookManager.Book
 {
@@ -110,6 +113,9 @@ namespace BookManager.Book
         /// </summary>
         internal void SaveBook()
         {
+            // 外部キーがなかったらInsertする(手入力ではありえないがインポート後に保存するとありうる)
+            InsertReferenceKey();
+
             // 追加
             var willInsert = from book in BookViewDatas
                                         where book.Operation == OPERATION.INSERT.ToString()
@@ -130,6 +136,76 @@ namespace BookManager.Book
 
             // 読み直す
             ReadBook();
+        }
+
+        /// <summary>
+        /// 外部キーを挿入
+        /// </summary>
+        private void InsertReferenceKey()
+        {
+            InsertBox();
+            InsertGenre();
+            InsertPosition();
+        }
+
+        /// <summary>
+        /// 段ボールを挿入
+        /// </summary>
+        private void InsertBox()
+        {
+            var nowBoxes = boxModel.Read();
+            var notExistBoxes = new List<BoxData>();
+            foreach(var book in BookViewDatas)
+            {
+                if (!(nowBoxes.Exists(x => x.BoxName== book.Box)))
+                {
+                    notExistBoxes.Add(new() { BoxName = book.Box });
+                }
+            }
+            if(notExistBoxes.Count > 0)
+            {
+                boxModel.Insert(notExistBoxes);
+            }
+        }
+
+        /// <summary>
+        /// ジャンルを挿入
+        /// </summary>
+        private void InsertGenre()
+        {
+            var nowGenres = genreModel.Read();
+            var notExistGenres = new List<GenreData>();
+            foreach (var book in BookViewDatas)
+            {
+                if (!(nowGenres.Exists(x => x.GenreName == book.Genre)))
+                {
+                    notExistGenres.Add(new() { GenreName = book.Genre });
+                }
+            }
+            if(notExistGenres.Count > 0)
+            {
+                genreModel.Insert(notExistGenres);
+            }
+        }
+
+        /// <summary>
+        /// 配置を挿入
+        /// </summary>
+        private void InsertPosition()
+        {
+            var nowPositions = positionModel.Read();
+            var notExistPositions = new List<PositionData>();
+            foreach (var book in BookViewDatas)
+            {
+                if (!(nowPositions.Exists(x => x.Position == book.Position)))
+                {
+                    notExistPositions.Add(new() { Position = book.Position });
+                }
+            }
+            if (notExistPositions.Count > 0)
+            { 
+                positionModel.Insert(notExistPositions);
+            }
         }
 
         /// <summary>
