@@ -248,6 +248,7 @@ namespace BookManagerTest.Book
         /// <summary>
         /// インポートテスト
         /// </summary>
+        [TestMethod]
         public void Import_Test()
         {
             var filePath = @"C:\Users\anija\Desktop\codes\BookManager\BookManagerTest\TestDb\Test.tsv";
@@ -277,15 +278,15 @@ namespace BookManagerTest.Book
             var model = new BookModel(importExportDataAccesser: stub.Object);
             var imported = model.Import(filePath);
 
-            Assert.AreEqual(1, imported.Count);
+            Assert.AreEqual(books.Count, imported.Count);
             for (var i = 0; i < imported.Count; i++)
             {
-                Assert.AreEqual(books[1].Id, imported[i].Id);
-                Assert.AreEqual(books[1].BookName, imported[i].BookName);
-                Assert.AreEqual(books[1].Auther, imported[i].Auther);
-                Assert.AreEqual(books[1].Genre, imported[i].Genre);
-                Assert.AreEqual(books[1].Position, imported[i].Position);
-                Assert.AreEqual(books[1].Box, imported[i].Box);
+                Assert.AreEqual(books[i].Id, imported[i].Id);
+                Assert.AreEqual(books[i].BookName, imported[i].BookName);
+                Assert.AreEqual(books[i].Auther, imported[i].Auther);
+                Assert.AreEqual(books[i].Genre, imported[i].Genre);
+                Assert.AreEqual(books[i].Position, imported[i].Position);
+                Assert.AreEqual(books[i].Box, imported[i].Box);
             }
         }
     }
