@@ -12,7 +12,7 @@ namespace BookManager.Book
         /// 蔵書全件取得
         /// </summary>
         /// <returns>蔵書一覧</returns>
-        public List<BookData> SelectAllBooks();
+        public List<BookData> SelectAllBook();
 
         /// <summary>
         /// 蔵書1冊を挿入

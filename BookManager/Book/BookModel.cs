@@ -28,7 +28,7 @@ namespace BookManager.Book
         /// <returns></returns>
         public List<BookData> Read()
         {
-            return dataAccess.SelectAllBooks();
+            return dataAccess.SelectAllBook();
         }
 
         /// <summary>

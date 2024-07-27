@@ -29,7 +29,7 @@ namespace BookManagerTest.Book
             dataAccess.InsertBook(book);
 
             // Assert
-            var books = dataAccess.SelectAllBooks();
+            var books = dataAccess.SelectAllBook();
             foreach (var selectedBook in books)
             {
                 Assert.AreEqual(book.Id, selectedBook.Id);
@@ -66,7 +66,7 @@ namespace BookManagerTest.Book
             dataAccess.DeleteBook(book);
 
             // Assert
-            var books = dataAccess.SelectAllBooks();
+            var books = dataAccess.SelectAllBook();
             Assert.AreEqual(0, books.Count, $"books.Count={books.Count}");
 
             TestDbTableCreateDelete.DropTable();
@@ -104,7 +104,7 @@ namespace BookManagerTest.Book
             dataAccess.UpdateBook(updatedBook);
 
             // Assert
-            var books = dataAccess.SelectAllBooks();
+            var books = dataAccess.SelectAllBook();
             Assert.AreEqual(1, books.Count);
             foreach (var selectedBook in books)
             {
