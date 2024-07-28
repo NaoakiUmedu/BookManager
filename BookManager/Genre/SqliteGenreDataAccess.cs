@@ -12,7 +12,7 @@ namespace BookManager.Genre
         /// <summary>
         /// DBファイルのパス(デフォルトは本番DB)
         /// </summary>
-        private string dbFilePath = @"Data Source=C:\Users\anija\Desktop\Apps\BookManager\DB\db.db";
+        private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
         /// コンストラクタ
@@ -60,7 +60,7 @@ namespace BookManager.Genre
         /// <param name="genre">ジャンル</param>
         public void InsertGenre(GenreData genre)
         {
-            var quely = $"INSERT INTO genre (genrename) VALUES ('{genre.GenreName}')";
+            var quely = $"INSERT INTO genre (genrename) VALUES ('{genre.GenreName.Replace("'", "''")}')";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
@@ -78,7 +78,7 @@ namespace BookManager.Genre
         /// <param name="genre">ジャンル</param>
         public void DeleteGenre(GenreData genre)
         {
-            var quely = $"DELETE FROM genre WHERE genrename = '{genre.GenreName}'";
+            var quely = $"DELETE FROM genre WHERE genrename = '{genre.GenreName.Replace("'", "''")}'";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();

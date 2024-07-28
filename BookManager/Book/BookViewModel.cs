@@ -163,9 +163,10 @@ namespace BookManager.Book
                     notExistBoxes.Add(new() { BoxName = book.Box });
                 }
             }
+            
             if(notExistBoxes.Count > 0)
             {
-                boxModel.Insert(notExistBoxes);
+                boxModel.Insert(notExistBoxes.Distinct().ToList());
             }
         }
 
@@ -183,9 +184,10 @@ namespace BookManager.Book
                     notExistGenres.Add(new() { GenreName = book.Genre });
                 }
             }
-            if(notExistGenres.Count > 0)
+            
+            if (notExistGenres.Count > 0)
             {
-                genreModel.Insert(notExistGenres);
+                genreModel.Insert(notExistGenres.Distinct().ToList());
             }
         }
 
@@ -203,9 +205,10 @@ namespace BookManager.Book
                     notExistPositions.Add(new() { Position = book.Position });
                 }
             }
+            
             if (notExistPositions.Count > 0)
             { 
-                positionModel.Insert(notExistPositions);
+                positionModel.Insert(notExistPositions.Distinct().ToList());
             }
         }
 
@@ -347,6 +350,60 @@ namespace BookManager.Book
                     Box = book.Box,
                     Genre = book.Genre,
                     Position = book.Position });
+            }
+            // プルダウンに追加して画面に出せるようにする(まだDataAccessには突っ込まない)
+            AddNotExistPulldown();
+        }
+
+        /// <summary>
+        /// BookViewDatasに入っているがまだ選択肢にないプルダウンを追加する(インポート時に使う)
+        /// </summary>
+        private void AddNotExistPulldown()
+        {
+            AddNotExistBox();
+            AddNotExistGenre();
+            AddNotExistPosition();
+        }
+
+        /// <summary>
+        /// 選択肢にない段ボールを選択肢に追加
+        /// </summary>
+        private void AddNotExistBox()
+        {
+            foreach (var book in BookViewDatas)
+            {
+                if (!(BoxChoces.ToList().Exists(x => x == book.Box)))
+                {
+                    BoxChoces.Add(book.Box);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 選択肢にないジャンルを選択肢に追加
+        /// </summary>
+        private void AddNotExistGenre()
+        {
+            foreach (var book in BookViewDatas)
+            {
+                if (!(GenreChoces.ToList().Exists(x => x == book.Genre)))
+                {
+                    GenreChoces.Add(book.Genre);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 選択肢にない配置を選択肢に追加
+        /// </summary>
+        private void AddNotExistPosition()
+        {
+            foreach (var book in BookViewDatas)
+            {
+                if (!(PositionChoces.ToList().Exists(x => x == book.Position)))
+                {
+                    PositionChoces.Add(book.Position);
+                }
             }
         }
 

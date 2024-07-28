@@ -12,7 +12,7 @@ namespace BookManager.Box
         /// <summary>
         /// DBファイルのパス(デフォルトは本番DB)
         /// </summary>
-        private string dbFilePath = @"Data Source=C:\Users\anija\Desktop\Apps\BookManager\DB\db.db";
+        private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
         /// コンストラクタ
@@ -60,7 +60,7 @@ namespace BookManager.Box
         /// <param name="box">段ボール</param>
         public void InsertBox(BoxData box)
         {
-            var quely = $"INSERT INTO box (boxname) VALUES ('{box.BoxName}')";
+            var quely = $"INSERT INTO box (boxname) VALUES ('{box.BoxName.Replace("'", "''")}')";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
@@ -78,7 +78,7 @@ namespace BookManager.Box
         /// <param name="box">段ボール</param>
         public void DeleteBox(BoxData box)
         {
-            var quely = $"DELETE FROM box WHERE boxname = '{box.BoxName}'";
+            var quely = $"DELETE FROM box WHERE boxname = '{box.BoxName.Replace("'", "''")}'";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();

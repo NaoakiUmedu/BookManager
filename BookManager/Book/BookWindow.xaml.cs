@@ -57,5 +57,43 @@ namespace BookManager.Book
             vm?.ReadBook();
             vm?.UpdatePulldown();
         }
+
+        /// <summary>
+        /// インポート
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Import_Click(object sender, RoutedEventArgs e)
+        {
+            var filePath = SelectFile();
+            if(filePath != string.Empty)
+            {
+                var vm = this.DataContext as BookViewModel;
+                vm?.Import(filePath);
+            }
+        }
+
+        /// <summary>
+        /// ファイルを選択する
+        /// </summary>
+        /// <returns>ファイル</returns>
+        private string SelectFile()
+        {
+            string filename = string.Empty;
+
+            
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.DefaultExt = "";
+            dialog.Filter = "tsv|*.tsv";
+
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                // Open document
+                filename = dialog.FileName;
+            }
+
+            return filename;
+        }
     }
 }

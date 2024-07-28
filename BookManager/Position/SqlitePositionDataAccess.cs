@@ -13,7 +13,7 @@ namespace BookManager.Position
         /// <summary>
         /// DBファイルのパス(デフォルトは本番DB)
         /// </summary>
-        private string dbFilePath = @"Data Source=C:\Users\anija\Desktop\Apps\BookManager\DB\db.db";
+        private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
         /// コンストラクタ
@@ -61,7 +61,7 @@ namespace BookManager.Position
         /// <param name="position">配置</param>
         public void InsertPosition(PositionData position)
         {
-            var quely = $"INSERT INTO position (position) VALUES ('{position.Position}')";
+            var quely = $"INSERT INTO position (position) VALUES ('{position.Position.Replace("'", "''")}')";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
@@ -79,7 +79,7 @@ namespace BookManager.Position
         /// <param name="position">配置</param>
         public void DeletePosition(PositionData position)
         {
-            var quely = $"DELETE FROM position WHERE position = '{position.Position}'";
+            var quely = $"DELETE FROM position WHERE position = '{position.Position.Replace("'", "''")}'";
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();

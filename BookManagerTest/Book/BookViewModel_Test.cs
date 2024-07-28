@@ -11,6 +11,7 @@ using BookManager.Position;
 using System.Net.Http.Headers;
 using System.Runtime.Intrinsics.X86;
 using static System.Reflection.Metadata.BlobBuilder;
+using System.Collections.Immutable;
 
 namespace BookManagerTest.Book
 {
@@ -43,8 +44,20 @@ namespace BookManagerTest.Book
         [TestMethod]
         public void SaveRead_Test()
         {
+            var box = new Mock<IBoxModel>();
+            box.Setup(x => x.Read()).Returns(new List<BoxData>() { new BoxData { BoxName = "新書1" } });
+            box.Setup(x => x.Insert(new List<BoxData>() { new BoxData { BoxName = "自然科学1" } })).Verifiable();
+
+            var genre = new Mock<IGenreModel>();
+            genre.Setup(x => x.Read()).Returns(new List<GenreData>() { new GenreData { GenreName = "自然科学" } });
+            genre.Setup(x => x.Insert(new List<GenreData>() { new GenreData { GenreName = "歴史" } })).Verifiable();
+
+            var position = new Mock<IPositionModel>();
+            position.Setup(x => x.Read()).Returns(new List<PositionData>() { new PositionData { Position = "本棚(小)" } });
+            position.Setup(x => x.Insert(new List<PositionData>() { new PositionData { Position = "本棚(大)" } })).Verifiable();
+
             // Ararnge
-            var vm = new BookViewModel(bookModel: CreateMock());
+            var vm = new BookViewModel(bookModel: CreateMock(), boxModel:box.Object, genreModel:genre.Object, positionModel:position.Object);
             vm.BookViewDatas = testInputData;
 
             // Action
@@ -74,7 +87,19 @@ namespace BookManagerTest.Book
             var mock = new Mock<IBookModel>();
             mock.Setup(x => x.Read()).Returns(willReturn);
 
-            var vm = new BookViewModel(mock.Object);
+            var box = new Mock<IBoxModel>();
+            box.Setup(x => x.Read()).Returns(new List<BoxData>() { new BoxData { BoxName = "新書1" } });
+            box.Setup(x => x.Insert(new List<BoxData>() { new BoxData { BoxName = "自然科学1" } })).Verifiable();
+
+            var genre = new Mock<IGenreModel>();
+            genre.Setup(x => x.Read()).Returns(new List<GenreData>() { new GenreData { GenreName = "自然科学" } });
+            genre.Setup(x => x.Insert(new List<GenreData>() { new GenreData { GenreName = "歴史" } })).Verifiable();
+
+            var position = new Mock<IPositionModel>();
+            position.Setup(x => x.Read()).Returns(new List<PositionData>() { new PositionData { Position = "本棚(小)" } });
+            position.Setup(x => x.Insert(new List<PositionData>() { new PositionData { Position = "本棚(大)" } })).Verifiable();
+
+            var vm = new BookViewModel(mock.Object, box.Object, genre.Object, position.Object);
             vm.BookViewDatas = testInputData;
             vm.SaveBook();
 
@@ -275,6 +300,40 @@ namespace BookManagerTest.Book
                 Assert.AreEqual(willReturn[i].Position, vm.BookViewDatas[i].Position);
                 Assert.AreEqual(willReturn[i].Box, vm.BookViewDatas[i].Box);
             }
+
+            var genres = (from book in willReturn
+                         select book.Genre).ToList();
+            genres.Sort();
+            var genreChoises = vm.GenreChoces.ToList();
+            genreChoises.Sort();
+            Assert.AreEqual(genres.Count, genreChoises.Count);
+            for (int i = 0; i < willReturn.Count; i++)
+            {
+                Assert.AreEqual(genres[i], genreChoises[i]);
+            }
+
+            var boxes = (from book in willReturn
+                          select book.Box).ToList();
+            boxes.Sort();
+            var boxChoises = vm.BoxChoces.ToList();
+            boxChoises.Sort();
+            Assert.AreEqual(boxes.Count, boxChoises.Count);
+            for (int i = 0; i < boxes.Count; i++)
+            {
+                Assert.AreEqual(boxes[i], boxChoises[i]);
+            }
+
+            var positions = (from book in willReturn
+                         select book.Position).ToList();
+            positions.Sort();
+            var positionChoises = vm.PositionChoces.ToList();
+            positionChoises.Sort();
+            Assert.AreEqual(positions.Count, positionChoises.Count);
+            for (int i = 0; i < positions.Count; i++)
+            {
+                Assert.AreEqual(positions[i], positionChoises[i]);
+            }
+
             mock.Verify();
         }
 

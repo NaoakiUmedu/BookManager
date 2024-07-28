@@ -9,7 +9,7 @@ namespace BookManager.Book
         /// <summary>
         /// DBファイルのパス
         /// </summary>
-        private string dbFilePath = @"Data Source=C:\Users\anija\Desktop\Apps\BookManager\DB\db.db";
+        private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
         /// コンストラクタ
@@ -87,7 +87,7 @@ namespace BookManager.Book
             query += "(bookid, bookname, author, genre, position, box)";
             query += " ";
             query += "VALUES";
-            query += $"('{book.Id.ToString()}', '{book.BookName}', '{book.Auther}', '{book.Genre}', '{book.Position}', '{book.Box}')";
+            query += $"('{book.Id.ToString()}', '{book.BookName.Replace("'", "''")}', '{book.Auther.Replace("'", "''")}', '{book.Genre.Replace("'", "''")}', '{book.Position.Replace("'", "''")}', '{book.Box.Replace("'", "''")}')";
             return query;
         }
 
@@ -149,11 +149,11 @@ namespace BookManager.Book
             query += " ";
             query += "SET";
             query += $"   bookid = '{book.Id}',";
-            query += $"   bookname = '{book.BookName}',";
-            query += $"   author = '{book.Auther}',";
-            query += $"   genre = '{book.Genre}',";
-            query += $"   position = '{book.Position}',";
-            query += $"   box = '{book.Box}'";
+            query += $"   bookname = '{book.BookName.Replace("'", "''")}',";
+            query += $"   author = '{book.Auther.Replace("'", "''")}',";
+            query += $"   genre = '{book.Genre.Replace("'", "''")}',";
+            query += $"   position = '{book.Position.Replace("'", "''")}',";
+            query += $"   box = '{book.Box.Replace("'", "''")}'";
             query += " ";
             query += $"WHERE bookid = '{book.Id}';";
             return query;
