@@ -31,5 +31,12 @@ namespace BookManager.Book
         /// </summary>
         /// <returns></returns>
         public List<BookData> Read();
+
+        /// <summary>
+        /// インポートする
+        /// </summary>
+        /// <param name="filePath">ファイルパス</param>
+        /// <returns>本</returns>
+        public List<BookData> Import(string filePath);
     }
 }

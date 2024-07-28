@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using BookManager.Box;
 using BookManager.Genre;
 using BookManager.Position;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookManager.Book
 {
@@ -221,7 +222,13 @@ namespace BookManager.Book
             BookViewDatas.Clear();
             foreach(var book in books)
             {
-                BookViewDatas.Add(new BookViewData() {Id=book.Id, Auther=book.Auther, BookName=book.BookName, Box=book.Box, Genre=book.Genre, Position=book.Position });
+                BookViewDatas.Add(new BookViewData() {
+                    Id=book.Id,
+                    Auther=book.Auther,
+                    BookName=book.BookName,
+                    Box=book.Box,
+                    Genre=book.Genre,
+                    Position=book.Position });
             }
         }
 
@@ -319,5 +326,28 @@ namespace BookManager.Book
             /// </summary>
             DELETE
         };
+
+        /// <summary>
+        /// インポート
+        /// </summary>
+        /// <param name="filePath">ファイルパス</param>
+        public void Import(string filePath)
+        {
+            var imported = bookModel.Import(filePath);
+            // 注意!丸々置き換えるとBindingが解ける!
+            // Concatでもだめらしい
+            BookViewDatas.Clear();
+            foreach (var book in imported)
+            {
+                BookViewDatas.Add(new BookViewData() {
+                    Operation = OPERATION.INSERT.ToString(),
+                    Id = book.Id,
+                    Auther = book.Auther,
+                    BookName = book.BookName,
+                    Box = book.Box,
+                    Genre = book.Genre,
+                    Position = book.Position });
+            }
+        }
     }
 }

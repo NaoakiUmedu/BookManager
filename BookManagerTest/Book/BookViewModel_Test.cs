@@ -176,6 +176,9 @@ namespace BookManagerTest.Book
             return moqModel.Object;
         }
 
+        /// <summary>
+        /// プルダウンの選択肢を入れるテスト
+        /// </summary>
         [TestMethod]
         public void PulldownUpdate_Test()
         {
@@ -227,6 +230,52 @@ namespace BookManagerTest.Book
             {
                 Assert.AreEqual(positionList[i].Position, vm.PositionChoces[i]);
             }
+        }
+
+        /// <summary>
+        /// インポートのテスト
+        /// </summary>
+        [TestMethod]
+        public void Import_Test()
+        {
+            var filePath = @"C:\Users\anija\Desktop\codes\BookManager\BookManagerTest\TestDb\Test.tsv";
+            var willReturn = new List<BookData>()
+            {
+                new BookData()
+                {
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookData()
+                {
+                    BookName = "数学再入門",
+                    Auther = "長岡亮介",
+                    Genre = "自然科学",
+                    Position = "本棚(大)",
+                    Box = "自然科学1"
+                }
+            };
+
+            var mock = new Mock<IBookModel>();
+            mock.Setup(x => x.Import(filePath)).Returns(willReturn).Verifiable();
+
+            var vm = new BookViewModel(bookModel:mock.Object);
+            vm.Import(filePath);
+
+            Assert.AreEqual(willReturn.Count, vm.BookViewDatas.Count);
+            for(int i = 0; i < willReturn.Count; i++)
+            {
+                Assert.AreEqual(OPERATION.INSERT.ToString(), vm.BookViewDatas[i].Operation);
+                Assert.AreEqual(willReturn[i].BookName, vm.BookViewDatas[i].BookName);
+                Assert.AreEqual(willReturn[i].Auther, vm.BookViewDatas[i].Auther);
+                Assert.AreEqual(willReturn[i].Genre, vm.BookViewDatas[i].Genre);
+                Assert.AreEqual(willReturn[i].Position, vm.BookViewDatas[i].Position);
+                Assert.AreEqual(willReturn[i].Box, vm.BookViewDatas[i].Box);
+            }
+            mock.Verify();
         }
     }
 }
