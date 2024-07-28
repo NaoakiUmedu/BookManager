@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,5 +39,12 @@ namespace BookManager.Book
         /// <param name="filePath">ファイルパス</param>
         /// <returns>本</returns>
         public List<BookData> Import(string filePath);
+
+        /// <summary>
+        /// エクスポートする
+        /// </summary>
+        /// <param name="filePath">ファイルパス</param>
+        /// <param name="books">本</param>
+        public void Export(string filePath, List<BookData> books);
     }
 }

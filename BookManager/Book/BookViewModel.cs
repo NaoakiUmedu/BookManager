@@ -67,7 +67,7 @@ namespace BookManager.Book
             /// <summary>
             /// 書籍ID
             /// </summary>
-            public Guid Id;
+            public Guid Id = Guid.NewGuid();
             /// <summary>
             /// 書名
             /// </summary>
@@ -348,6 +348,18 @@ namespace BookManager.Book
                     Genre = book.Genre,
                     Position = book.Position });
             }
+        }
+
+        /// <summary>
+        /// エクスポート
+        /// </summary>
+        /// <param name="filePath">ファイルパス</param>
+        public void Export(string filePath)
+        {
+            var willExport = from book in BookViewDatas
+                             select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
+            var tmp = willExport.ToList();
+            bookModel.Export(filePath, tmp);
         }
     }
 }

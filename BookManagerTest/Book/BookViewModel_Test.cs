@@ -277,5 +277,64 @@ namespace BookManagerTest.Book
             }
             mock.Verify();
         }
+
+        [TestMethod]
+        public void Export_Test()
+        {
+            var filePath = @"C:\Users\anija\Desktop\codes\BookManager\BookManagerTest\TestDb\Test.tsv";
+            var id1 = Guid.NewGuid();
+            var id2 = Guid.NewGuid();
+            var willCalled = new List<BookData>()
+            {
+                new BookData()
+                {
+                    Id = id1,
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookData()
+                {
+                    Id = id2,
+                    BookName = "数学再入門",
+                    Auther = "長岡亮介",
+                    Genre = "自然科学",
+                    Position = "本棚(大)",
+                    Box = "自然科学1"
+                }
+            };
+            var inputData = new ObservableCollection<BookViewData>()
+            {
+                new BookViewData()
+                {
+                    Id = id1,
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookViewData()
+                {
+                    Id = id2,
+                    BookName = "数学再入門",
+                    Auther = "長岡亮介",
+                    Genre = "自然科学",
+                    Position = "本棚(大)",
+                    Box = "自然科学1"
+                }
+            };
+
+            var mock = new Mock<IBookModel>();
+            mock.Setup(x => x.Export(filePath, willCalled)).Verifiable();
+
+            var vm = new BookViewModel(bookModel: mock.Object);
+            vm.BookViewDatas = inputData;
+            vm.Export(filePath);
+
+            mock.Verify();
+        }
     }
 }
