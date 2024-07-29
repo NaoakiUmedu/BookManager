@@ -51,7 +51,7 @@ namespace BookManagerTest.Position
             // Arrange
             var testData = new List<PositionData>() {
                 new PositionData(){Position = "本棚(小)"},
-                new PositionData(){Position = "本棚(大)"},
+                new PositionData(){Position = "本棚(大)'"},
                 new PositionData(){Position = "所属段ボール"},
             };
             var da = new SqlitePositionDataAccess(TestDbTableCreateDelete.TEST_DB_FILE_PATH);
@@ -61,7 +61,7 @@ namespace BookManagerTest.Position
             }
 
             // Act
-            da.DeletePosition(new PositionData() { Position = "本棚(大)" });
+            da.DeletePosition(new PositionData() { Position = "本棚(大)'" });
             var selected = da.SelectAllPosition();
 
             // Assert

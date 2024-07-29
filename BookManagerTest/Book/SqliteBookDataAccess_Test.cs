@@ -18,8 +18,8 @@ namespace BookManagerTest.Book
             var dataAccess = new SqliteBookDataAccess(TestDbTableCreateDelete.TEST_DB_FILE_PATH);
             var book = new BookData()
             {
-                BookName = "ある明治人の記録",
-                Auther = "柴五郎",
+                BookName = "ある明治人の記録'",
+                Auther = "柴五郎'",
                 Genre = "歴史",
                 Position = "本棚(小)",
                 Box = "新書1"
