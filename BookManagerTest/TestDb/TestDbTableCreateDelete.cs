@@ -12,7 +12,7 @@ namespace BookManagerTest.TestDb
         /// <summary>
         /// 単体テストはそれ用のDBでやる(DataAccessのDB指定方法をData Sourceの文字列にしているため、インメモリにできなかった！！！失敗！！！
         /// </summary>
-        public static string TEST_DB_FILE_PATH = @"Data Source=C:\Users\anija\Desktop\codes\BookManager\BookManagerTest\TestDb\TestDb.db";
+        public static string TEST_DB_FILE_PATH = @"Data Source=..\..\..\..\BookManagerTest\TestDb\TestDb.db";
 
         /// <summary>
         /// テーブルの削除
