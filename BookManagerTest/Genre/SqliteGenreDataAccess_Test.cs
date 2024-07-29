@@ -53,7 +53,7 @@ namespace BookManagerTest.Genre
             // Arrange
             var testData = new List<GenreData>() {
                 new GenreData(){GenreName = "歴史"},
-                new GenreData(){GenreName = "小説"},
+                new GenreData(){GenreName = "小説'"},
                 new GenreData(){GenreName = "音楽"},
             };
             var da = new SqliteGenreDataAccess(TestDbTableCreateDelete.TEST_DB_FILE_PATH);
@@ -63,7 +63,7 @@ namespace BookManagerTest.Genre
             }
 
             // Act
-            da.DeleteGenre(new GenreData() { GenreName = "小説" });
+            da.DeleteGenre(new GenreData() { GenreName = "小説'" });
             var selected = da.SelectAllGenre();
 
             // Assert

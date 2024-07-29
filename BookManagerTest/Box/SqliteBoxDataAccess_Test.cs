@@ -20,9 +20,9 @@ namespace BookManagerTest.Box
 
             // Arrange
             var testData = new List<BoxData>() { 
-                new BoxData(){BoxName = "文庫1(エンタメ)"},
-                new BoxData(){BoxName = "文庫2(教養)"},
-                new BoxData(){BoxName = "漫画1"},
+                new BoxData(){BoxName = "文庫1(エンタメ)'"},
+                new BoxData(){BoxName = "文庫2(教養)'"},
+                new BoxData(){BoxName = "漫画1'"},
             };
 
             // Act
@@ -53,7 +53,7 @@ namespace BookManagerTest.Box
             // Arrange
             var testData = new List<BoxData>() {
                 new BoxData(){BoxName = "文庫1(エンタメ)"},
-                new BoxData(){BoxName = "文庫2(教養)"},
+                new BoxData(){BoxName = "文庫2(教養)'"},
                 new BoxData(){BoxName = "漫画1"},
             };
             var da = new SqliteBoxDataAccess(TestDbTableCreateDelete.TEST_DB_FILE_PATH);
@@ -63,7 +63,7 @@ namespace BookManagerTest.Box
             }
 
             // Act
-            da.DeleteBox(new BoxData() { BoxName = "文庫2(教養)" });
+            da.DeleteBox(new BoxData() { BoxName = "文庫2(教養)'" });
             var selected = da.SelectAllBox();
 
             // Assert
