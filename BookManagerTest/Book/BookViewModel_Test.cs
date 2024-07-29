@@ -131,6 +131,14 @@ namespace BookManagerTest.Book
                 },
                 new BookViewData()
                 {
+                    BookName = "ヤマト王権",
+                    Auther = "吉村武彦",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookViewData()
+                {
                     BookName = "数学再入門",
                     Auther = "長岡亮介",
                     Genre = "自然科学",
@@ -144,6 +152,14 @@ namespace BookManagerTest.Book
                 {
                     BookName = "ある明治人の記録",
                     Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookData()
+                {
+                    BookName = "ヤマト王権",
+                    Auther = "吉村武彦",
                     Genre = "歴史",
                     Position = "本棚(小)",
                     Box = "新書1"
