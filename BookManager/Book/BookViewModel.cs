@@ -418,5 +418,21 @@ namespace BookManager.Book
             var tmp = willExport.ToList();
             bookModel.Export(filePath, tmp);
         }
+
+        /// <summary>
+        /// 検索処理
+        /// </summary>
+        /// <param name="keyword">キーワード</param>
+        public void Seach(string keyword)
+        {
+            var searched = (from book in BookViewDatas
+                           where book.BookName.Contains(keyword)
+                           select new BookViewData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box }).ToList();
+            BookViewDatas.Clear();
+            foreach (var book in searched)
+            {
+                BookViewDatas.Add(book);
+            }
+        }
     }
 }

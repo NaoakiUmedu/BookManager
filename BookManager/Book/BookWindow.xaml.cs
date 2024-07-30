@@ -95,5 +95,15 @@ namespace BookManager.Book
 
             return filename;
         }
+        /// <summary>
+        /// 検索ボタン押下イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Seach_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = this.DataContext as BookViewModel;
+            vm?.Seach(TextBox_Search.Text);
+        }
     }
 }
