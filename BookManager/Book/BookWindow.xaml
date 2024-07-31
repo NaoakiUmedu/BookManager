@@ -25,6 +25,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
@@ -45,6 +46,7 @@
             <ColumnDefinition Width="10" ></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Button Content="検索" Name="Button_Seach"  Width="100" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" Click="Button_Seach_Click"/>
+        <Button Content="検索解除" Name="Button_Seach_Cancel"  Width="100" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" Click="Button_Seach_Cancel_Click" />
         <TextBox Name="TextBox_Search" Height="30" Width="300" Grid.Row="1" Grid.Column="3"></TextBox>
 
         <DataGrid Name="DataGrid_Book" ItemsSource="{Binding BookViewDatas}"
@@ -61,7 +63,7 @@
         </DataGrid>
 
         <Button Content="インポート" Name="Button_Import" Height="30"  Width="100" Grid.Row="1" Grid.Column="6" Click="Button_Import_Click"></Button>
-        <Button Content="追加" Name="Button_Add" Height="30"  Width="100" Grid.Row="3" Grid.Column="6" Click="Button_Add_Click"></Button>
+        <Button Content="追加" Name="Button_Add" Height="30"  Width="100" Grid.Row="2" Grid.Column="6" Click="Button_Add_Click"></Button>
         <Button Content="保存" Name="Button_Save" Height="30"  Width="100" Grid.Row="7" Grid.Column="6" Click="Button_Save_Click"></Button>
         <Button Content="エクスポート" Name="Button_Export" Height="30"  Width="100" Grid.Row="8" Grid.Column="6"></Button>
     </Grid>

@@ -105,5 +105,17 @@ namespace BookManager.Book
             var vm = this.DataContext as BookViewModel;
             vm?.Seach(TextBox_Search.Text);
         }
+
+        /// <summary>
+        /// 検索解除ボタン
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Seach_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            // 単純にReadしちゃう
+            var vm = this.DataContext as BookViewModel;
+            vm?.ReadBook();
+        }
     }
 }
