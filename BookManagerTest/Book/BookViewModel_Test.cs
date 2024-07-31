@@ -411,5 +411,72 @@ namespace BookManagerTest.Book
 
             mock.Verify();
         }
+
+        [TestMethod]
+        public void Search_Test()
+        {
+            var inputData = new ObservableCollection<BookViewData>()
+            {
+                new BookViewData()
+                {
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookViewData()
+                {
+                    BookName = "数学再入門",
+                    Auther = "長岡亮介",
+                    Genre = "自然科学",
+                    Position = "本棚(大)",
+                    Box = "自然科学1"
+                },
+                new BookViewData()
+                {
+                    BookName = "明治洋食事始め",
+                    Auther = "岡田 哲",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "文庫2(教養)"
+                }
+            };
+
+            var willSearchedData = new ObservableCollection<BookViewData>()
+            {
+                new BookViewData()
+                {
+                    BookName = "ある明治人の記録",
+                    Auther = "柴五郎",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "新書1"
+                },
+                new BookViewData()
+                {
+                    BookName = "明治洋食事始め",
+                    Auther = "岡田 哲",
+                    Genre = "歴史",
+                    Position = "本棚(小)",
+                    Box = "文庫2(教養)"
+                }
+            };
+
+            var vm = new BookViewModel();
+            vm.BookViewDatas = inputData;
+
+            vm.Seach("明治");
+
+            Assert.AreEqual(willSearchedData.Count, vm.BookViewDatas.Count);
+            for(int i = 0; i < willSearchedData.Count; i++)
+            {
+                Assert.AreEqual(willSearchedData[i].BookName, vm.BookViewDatas[i].BookName);
+                Assert.AreEqual(willSearchedData[i].Auther, vm.BookViewDatas[i].Auther);
+                Assert.AreEqual(willSearchedData[i].Genre, vm.BookViewDatas[i].Genre);
+                Assert.AreEqual(willSearchedData[i].Position, vm.BookViewDatas[i].Position);
+                Assert.AreEqual(willSearchedData[i].Box, vm.BookViewDatas[i].Box);
+            }
+        }
     }
 }
