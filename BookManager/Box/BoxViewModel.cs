@@ -10,6 +10,9 @@ using static BookManager.Book.BookViewModel;
 
 namespace BookManager.Box
 {
+    /// <summary>
+    /// 段ボール一覧画面のViewModel
+    /// </summary>
     internal class BoxViewModel : INotifyPropertyChanged
     {
         /// <summary>

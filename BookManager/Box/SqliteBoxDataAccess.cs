@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Box
 {
+    /// <summary>
+    /// SQLiteによる段ボールのデータアクセッサ
+    /// </summary>
     internal class SqliteBoxDataAccess : IBoxDataAccess
     {
         /// <summary>

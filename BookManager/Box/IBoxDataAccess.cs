@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Box
 {
+    /// <summary>
+    /// 段ボールのデータアクセッサのインターフェース
+    /// </summary>
     public interface IBoxDataAccess
     {
         /// <summary>
