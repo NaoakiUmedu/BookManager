@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Position
+﻿namespace BookManager.Position
 {
     /// <summary>
     /// 配置に関するユースケースのインタフェース(現状主キーのみなのでUpdateはありえない)

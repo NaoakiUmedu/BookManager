@@ -1,6 +1,4 @@
-﻿using BookManager.Book;
-using Microsoft.Data.Sqlite;
-using System.Xml.Linq;
+﻿using Microsoft.Data.Sqlite;
 
 namespace BookManager.Book
 {

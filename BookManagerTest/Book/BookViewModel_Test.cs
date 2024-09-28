@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static BookManager.Book.BookViewModel;
+﻿using static BookManager.Book.BookViewModel;
 using System.Collections.ObjectModel;
 
 using BookManager.Book;
@@ -8,10 +7,6 @@ using Moq;
 using BookManager.Box;
 using BookManager.Genre;
 using BookManager.Position;
-using System.Net.Http.Headers;
-using System.Runtime.Intrinsics.X86;
-using static System.Reflection.Metadata.BlobBuilder;
-using System.Collections.Immutable;
 
 namespace BookManagerTest.Book
 {

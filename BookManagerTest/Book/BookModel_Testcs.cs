@@ -1,12 +1,5 @@
 ﻿using BookManager.Book;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace BookManagerTest.Book
 {

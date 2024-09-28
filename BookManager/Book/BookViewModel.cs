@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using BookManager.Box;
 using BookManager.Genre;
 using BookManager.Position;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookManager.Book
 {

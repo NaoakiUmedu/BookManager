@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using BookManager.Book;
 using BookManagerTest.TestDb;
-using System.Linq;
 
 namespace BookManagerTest.Book
 {

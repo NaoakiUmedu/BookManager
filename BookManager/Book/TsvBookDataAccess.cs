@@ -1,7 +1,4 @@
 ﻿using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using System.Windows.Shapes;
 
 namespace BookManager.Book
 {
