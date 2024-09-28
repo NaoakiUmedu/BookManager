@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Genre
 {
+    /// <summary>
+    /// SQLiteによるジャンルデータアクセッサ
+    /// </summary>
     internal class SqliteGenreDataAccess : IGenreDataAccess
     {
         /// <summary>

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Genre
 {
+    /// <summary>
+    /// ジャンルデータアクセッサのインターフェース
+    /// </summary>
     public interface IGenreDataAccess
     {
         /// <summary>

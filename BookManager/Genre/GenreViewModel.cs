@@ -10,6 +10,9 @@ using static BookManager.Book.BookViewModel;
 
 namespace BookManager.Genre
 {
+    /// <summary>
+    /// ジャンル一覧画面のViewModel
+    /// </summary>
     internal class GenreViewModel : INotifyPropertyChanged
     {
         /// <summary>
