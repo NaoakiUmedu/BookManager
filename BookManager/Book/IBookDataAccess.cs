@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
+    /// <summary>
+    /// 蔵書データアクセッサのインターフェース
+    /// </summary>
     internal interface IBookDataAccess
     {
         /// <summary>

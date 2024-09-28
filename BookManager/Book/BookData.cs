@@ -10,7 +10,7 @@ namespace BookManager.Book
 {
 
     /// <summary>
-    /// 本を表すデータ
+    /// 蔵書を表すデータ
     /// </summary>
     public class BookData
     {

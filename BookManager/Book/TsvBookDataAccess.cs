@@ -5,6 +5,9 @@ using System.Windows.Shapes;
 
 namespace BookManager.Book
 {
+    /// <summary>
+    /// TSVファイルによる蔵書インポート・エクスポート用データアクセッサ
+    /// </summary>
     internal class TsvBookDataAccess : IImportExportBookDataAccess
     {
         /// <summary>

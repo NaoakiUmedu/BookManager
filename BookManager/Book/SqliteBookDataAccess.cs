@@ -4,6 +4,9 @@ using System.Xml.Linq;
 
 namespace BookManager.Book
 {
+    /// <summary>
+    /// SQLiteによる蔵書データアクセッサ
+    /// </summary>
     internal class SqliteBookDataAccess : IBookDataAccess
     {
         /// <summary>

@@ -57,7 +57,7 @@ namespace BookManagerTest.Book
             position.Setup(x => x.Insert(new List<PositionData>() { new PositionData { Position = "本棚(大)" } })).Verifiable();
 
             // Ararnge
-            var vm = new BookViewModel(bookModel: CreateMock(), boxModel:box.Object, genreModel:genre.Object, positionModel:position.Object);
+            var vm = new BookViewModel(bookUsecaseImpl: CreateMock(), boxUsecaseImpl:box.Object, genreUsecaseImpl:genre.Object, positionUsecaseImpl:position.Object);
             vm.BookViewDatas = testInputData;
 
             // Action
@@ -248,9 +248,9 @@ namespace BookManagerTest.Book
 
             // Action
             var vm = new BookViewModel(
-                boxModel: boxMock.Object,
-                genreModel: genreMock.Object,
-                positionModel: positionMock.Object);
+                boxUsecaseImpl: boxMock.Object,
+                genreUsecaseImpl: genreMock.Object,
+                positionUsecaseImpl: positionMock.Object);
             vm.UpdatePulldown();
 
             // Assert
@@ -303,7 +303,7 @@ namespace BookManagerTest.Book
             var mock = new Mock<IBookUsecase>();
             mock.Setup(x => x.Import(filePath)).Returns(willReturn).Verifiable();
 
-            var vm = new BookViewModel(bookModel:mock.Object);
+            var vm = new BookViewModel(bookUsecaseImpl:mock.Object);
             vm.Import(filePath);
 
             Assert.AreEqual(willReturn.Count, vm.BookViewDatas.Count);
@@ -405,7 +405,7 @@ namespace BookManagerTest.Book
             var mock = new Mock<IBookUsecase>();
             mock.Setup(x => x.Export(filePath, willCalled)).Verifiable();
 
-            var vm = new BookViewModel(bookModel: mock.Object);
+            var vm = new BookViewModel(bookUsecaseImpl: mock.Object);
             vm.BookViewDatas = inputData;
             vm.Export(filePath);
 

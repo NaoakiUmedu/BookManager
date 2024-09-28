@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
+    /// <summary>
+    /// 蔵書インポート・エクスポート用データアクセッサのインターフェース
+    /// </summary>
     public interface IImportExportBookDataAccess
     {
         /// <summary>

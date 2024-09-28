@@ -15,24 +15,27 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookManager.Book
 {
+    /// <summary>
+    /// 蔵書一覧画面のViewModel
+    /// </summary>
     internal class BookViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// 蔵書一覧モデルクラス
         /// </summary>
-        private readonly IBookUsecase bookModel = new BookUsecaseImpl();
+        private readonly IBookUsecase bookUsecaseImpl = new BookUsecaseImpl();
         /// <summary>
         /// 段ボールモデルクラス
         /// </summary>
-        private readonly Box.IBoxUsecase boxModel = new Box.BoxUsecaseImpl();
+        private readonly Box.IBoxUsecase boxUsecaseImpl = new Box.BoxUsecaseImpl();
         /// <summary>
         /// ジャンルモデルクラス
         /// </summary>
-        private readonly Genre.IGenreUsecase genreModel = new Genre.GenreUsecaseImpl();
+        private readonly Genre.IGenreUsecase genreUsecaseImpl = new Genre.GenreUsecaseImpl();
         /// <summary>
         /// 配置モデルクラス
         /// </summary>
-        private readonly Position.IPositionUsecase positionModel = new Position.PositionUsecaseImpl();
+        private readonly Position.IPositionUsecase positionUsecaseImpl = new Position.PositionUsecaseImpl();
 
         /// <summary>
         /// コンストラクタ
@@ -45,17 +48,17 @@ namespace BookManager.Book
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>
-        /// <param name="bookModel">蔵書一覧モデルクラス</param>
+        /// <param name="bookUsecaseImpl">蔵書一覧モデルクラス</param>
         public BookViewModel(
-            IBookUsecase? bookModel = null,
-            Box.IBoxUsecase? boxModel = null,
-            Genre.IGenreUsecase? genreModel = null,
-            Position.IPositionUsecase? positionModel = null)
+            IBookUsecase? bookUsecaseImpl = null,
+            Box.IBoxUsecase? boxUsecaseImpl = null,
+            Genre.IGenreUsecase? genreUsecaseImpl = null,
+            Position.IPositionUsecase? positionUsecaseImpl = null)
         {
-            this.bookModel = bookModel ?? this.bookModel;
-            this.boxModel = boxModel ?? this.boxModel;
-            this.genreModel = genreModel ?? this.genreModel;
-            this.positionModel = positionModel ?? this.positionModel;
+            this.bookUsecaseImpl = bookUsecaseImpl ?? this.bookUsecaseImpl;
+            this.boxUsecaseImpl = boxUsecaseImpl ?? this.boxUsecaseImpl;
+            this.genreUsecaseImpl = genreUsecaseImpl ?? this.genreUsecaseImpl;
+            this.positionUsecaseImpl = positionUsecaseImpl ?? this.positionUsecaseImpl;
         }
 
         /// <summary>
@@ -121,19 +124,19 @@ namespace BookManager.Book
             var willInsert = from book in BookViewDatas
                                         where book.Operation == OPERATION.INSERT.ToString()
                                         select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
-            bookModel.Insert(willInsert.ToList());
+            bookUsecaseImpl.Insert(willInsert.ToList());
 
             // 更新
             var willUpdate = from book in BookViewDatas
                              where book.Operation == OPERATION.UPDATE.ToString()
                              select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
-            bookModel.Update(willUpdate.ToList());
+            bookUsecaseImpl.Update(willUpdate.ToList());
 
             // 削除
             var willDelete = from book in BookViewDatas
                              where book.Operation == OPERATION.DELETE.ToString()
                              select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
-            bookModel.Delete(willDelete.ToList());
+            bookUsecaseImpl.Delete(willDelete.ToList());
 
             // 読み直す
             ReadBook();
@@ -154,7 +157,7 @@ namespace BookManager.Book
         /// </summary>
         private void InsertBox()
         {
-            var nowBoxes = boxModel.Read();
+            var nowBoxes = boxUsecaseImpl.Read();
             var notExistBoxes = new List<BoxData>();
             foreach(var book in BookViewDatas)
             {
@@ -166,7 +169,7 @@ namespace BookManager.Book
             
             if(notExistBoxes.Count > 0)
             {
-                boxModel.Insert(notExistBoxes.Distinct().ToList());
+                boxUsecaseImpl.Insert(notExistBoxes.Distinct().ToList());
             }
         }
 
@@ -175,7 +178,7 @@ namespace BookManager.Book
         /// </summary>
         private void InsertGenre()
         {
-            var nowGenres = genreModel.Read();
+            var nowGenres = genreUsecaseImpl.Read();
             var notExistGenres = new List<GenreData>();
             foreach (var book in BookViewDatas)
             {
@@ -187,7 +190,7 @@ namespace BookManager.Book
             
             if (notExistGenres.Count > 0)
             {
-                genreModel.Insert(notExistGenres.Distinct().ToList());
+                genreUsecaseImpl.Insert(notExistGenres.Distinct().ToList());
             }
         }
 
@@ -196,7 +199,7 @@ namespace BookManager.Book
         /// </summary>
         private void InsertPosition()
         {
-            var nowPositions = positionModel.Read();
+            var nowPositions = positionUsecaseImpl.Read();
             var notExistPositions = new List<PositionData>();
             foreach (var book in BookViewDatas)
             {
@@ -208,7 +211,7 @@ namespace BookManager.Book
             
             if (notExistPositions.Count > 0)
             { 
-                positionModel.Insert(notExistPositions.Distinct().ToList());
+                positionUsecaseImpl.Insert(notExistPositions.Distinct().ToList());
             }
         }
 
@@ -218,7 +221,7 @@ namespace BookManager.Book
         internal void ReadBook()
         {
 
-            var books = bookModel.Read();
+            var books = bookUsecaseImpl.Read();
 
             // 注意!丸々置き換えるとBindingが解ける!
             // Concatでもだめらしい
@@ -275,7 +278,7 @@ namespace BookManager.Book
         /// </summary>
         private void UpdateBoxPulldown()
         {
-            var boxes = boxModel.Read();
+            var boxes = boxUsecaseImpl.Read();
             BoxChoces.Clear();
             foreach(var box in boxes)
             {
@@ -287,7 +290,7 @@ namespace BookManager.Book
         /// </summary>
         private void UpdateGenrePulldown()
         {
-            var genres = genreModel.Read();
+            var genres = genreUsecaseImpl.Read();
             GenreChoces.Clear();
             foreach(var genre in genres)
             {
@@ -299,7 +302,7 @@ namespace BookManager.Book
         /// </summary>
         private void UpdatePositionPulldown()
         {
-            var positions = positionModel.Read();
+            var positions = positionUsecaseImpl.Read();
             PositionChoces.Clear();
             foreach(var position in positions)
             {
@@ -336,7 +339,7 @@ namespace BookManager.Book
         /// <param name="filePath">ファイルパス</param>
         public void Import(string filePath)
         {
-            var imported = bookModel.Import(filePath);
+            var imported = bookUsecaseImpl.Import(filePath);
             // 注意!丸々置き換えるとBindingが解ける!
             // Concatでもだめらしい
             BookViewDatas.Clear();
@@ -415,8 +418,7 @@ namespace BookManager.Book
         {
             var willExport = from book in BookViewDatas
                              select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.Box };
-            var tmp = willExport.ToList();
-            bookModel.Export(filePath, tmp);
+            bookUsecaseImpl.Export(filePath, willExport.ToList());
         }
 
         /// <summary>
