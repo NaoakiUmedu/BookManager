@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Box
+﻿namespace BookManager.Box
 {
     /// <summary>
-    /// 段ボールに対してできる操作のインタフェース(主キーのみなのでUpdateはありえない)
+    /// 段ボールに関するユースケースのインタフェース(現状主キーのみなのでUpdateはありえない)
     /// </summary>
-    public interface IBoxModel
+    public interface IBoxUsecase
     {
         /// <summary>
         /// 段ボールを挿入

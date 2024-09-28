@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static BookManager.Book.BookViewModel;
 
 namespace BookManager.Genre
 {
+    /// <summary>
+    /// ジャンル一覧画面のViewModel
+    /// </summary>
     internal class GenreViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// モデル
         /// </summary>
-        private readonly IGenreModel model = new GenreModel();
+        private readonly IGenreUsecase model = new GenreUsecaseImpl();
         /// <summary>
         /// コンストラクタ(本番用)
         /// </summary>
@@ -27,7 +24,7 @@ namespace BookManager.Genre
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">モデル</param>
-        public GenreViewModel(IGenreModel model)
+        public GenreViewModel(IGenreUsecase model)
         {
             this.model = model;
         }

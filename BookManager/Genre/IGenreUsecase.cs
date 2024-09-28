@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Genre
+﻿namespace BookManager.Genre
 {
     /// <summary>
-    /// ジャンルに対してできる操作のインタフェース(主キーのみなのでUpdateはありえない)
+    /// ジャンルに関するユースケースのインタフェース(現状主キーのみなのでUpdateはありえない)
     /// </summary>
-    public interface IGenreModel
+    public interface IGenreUsecase
     {
         /// <summary>
         /// ジャンルを挿入

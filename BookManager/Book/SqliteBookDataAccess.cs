@@ -1,9 +1,10 @@
-﻿using BookManager.Book;
-using Microsoft.Data.Sqlite;
-using System.Xml.Linq;
+﻿using Microsoft.Data.Sqlite;
 
 namespace BookManager.Book
 {
+    /// <summary>
+    /// SQLiteによる蔵書データアクセッサ
+    /// </summary>
     internal class SqliteBookDataAccess : IBookDataAccess
     {
         /// <summary>

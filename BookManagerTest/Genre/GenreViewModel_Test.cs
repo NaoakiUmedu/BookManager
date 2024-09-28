@@ -1,12 +1,5 @@
 ﻿using BookManager.Genre;
-using Moq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static BookManager.Book.BookViewModel;
 
 namespace BookManagerTest.Genre
 {
@@ -153,7 +146,7 @@ namespace BookManagerTest.Genre
         /// <summary>
         /// 差分を取るテストがあるのでもう作っちゃう
         /// </summary>
-        private class GenreModelStub : IGenreModel
+        private class GenreModelStub : IGenreUsecase
         {
             List<GenreData> innerData = [];
             /// <summary>

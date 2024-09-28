@@ -1,16 +1,8 @@
-﻿using BookManager.Box;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace BookManager.Book
+﻿namespace BookManager.Book
 {
 
     /// <summary>
-    /// 本を表すデータ
+    /// 蔵書を表すデータ
     /// </summary>
     public class BookData
     {

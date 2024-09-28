@@ -1,54 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Genre
+﻿namespace BookManager.Box
 {
-    internal class GenreModel : IGenreModel
+    /// <summary>
+    /// 段ボールに関するユースケースの実装
+    /// </summary>
+    internal class BoxUsecaseImpl : IBoxUsecase
     {
         /// <summary>
         /// データアクセッサ(デフォルトでは本番環境)
         /// </summary>
-        private IGenreDataAccess dataAccess = new SqliteGenreDataAccess();
+        private IBoxDataAccess dataAccess = new SqliteBoxDataAccess();
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="dataAccess">データアクセッサ</param>
-        public GenreModel(IGenreDataAccess? dataAccess = null)
+        public BoxUsecaseImpl(IBoxDataAccess? dataAccess = null)
         {
             this.dataAccess = dataAccess ?? this.dataAccess;
         }
 
         /// <summary>
-        /// ジャンルを挿入
+        /// 段ボールを挿入
         /// </summary>
         /// <param name=""></param>
-        public void Insert(List<GenreData> data)
+        public void Insert(List<BoxData> data)
         {
             foreach(var datum in data)
             {
-                dataAccess.InsertGenre(datum);
+                dataAccess.InsertBox(datum);
             }
         }
         /// <summary>
         /// 全件読み込み
         /// </summary>
         /// <returns>データ</returns>
-        public List<GenreData> Read()
+        public List<BoxData> Read()
         {
-            return dataAccess.SelectAllGenre();
+            return dataAccess.SelectAllBox();
         }
         /// <summary>
-        /// 指定したジャンルを削除
+        /// 指定した段ボールを削除
         /// </summary>
         /// <param name="data"></param>
-        public void Delete(List<GenreData> data)
+        public void Delete(List<BoxData> data)
         {
             foreach (var datum in data)
             {
-                dataAccess.DeleteGenre(datum);
+                dataAccess.DeleteBox(datum);
             }
         }
     }

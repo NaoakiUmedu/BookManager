@@ -1,10 +1,5 @@
 ﻿using BookManager.Position;
 using BookManagerTest.TestDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookManagerTest.Position
 {

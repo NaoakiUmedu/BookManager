@@ -1,54 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Box
+﻿namespace BookManager.Position
 {
-    internal class BoxModel : IBoxModel
+    /// <summary>
+    /// 配置に関するユースケースの実装
+    /// </summary>
+    internal class PositionUsecaseImpl : IPositionUsecase
     {
         /// <summary>
         /// データアクセッサ(デフォルトでは本番環境)
         /// </summary>
-        private IBoxDataAccess dataAccess = new SqliteBoxDataAccess();
+        private IPositionDataAccess dataAccess = new SqlitePositionDataAccess();
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="dataAccess">データアクセッサ</param>
-        public BoxModel(IBoxDataAccess? dataAccess = null)
+        public PositionUsecaseImpl(IPositionDataAccess? dataAccess = null)
         {
             this.dataAccess = dataAccess ?? this.dataAccess;
         }
 
         /// <summary>
-        /// 段ボールを挿入
+        /// 配置を挿入
         /// </summary>
         /// <param name=""></param>
-        public void Insert(List<BoxData> data)
+        public void Insert(List<PositionData> data)
         {
-            foreach(var datum in data)
+            foreach (var datum in data)
             {
-                dataAccess.InsertBox(datum);
+                dataAccess.InsertPosition(datum);
             }
         }
         /// <summary>
         /// 全件読み込み
         /// </summary>
         /// <returns>データ</returns>
-        public List<BoxData> Read()
+        public List<PositionData> Read()
         {
-            return dataAccess.SelectAllBox();
+            return dataAccess.SelectAllPosition();
         }
         /// <summary>
-        /// 指定した段ボールを削除
+        /// 指定した配置を削除
         /// </summary>
         /// <param name="data"></param>
-        public void Delete(List<BoxData> data)
+        public void Delete(List<PositionData> data)
         {
             foreach (var datum in data)
             {
-                dataAccess.DeleteBox(datum);
+                dataAccess.DeletePosition(datum);
             }
         }
     }

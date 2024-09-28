@@ -1,12 +1,5 @@
 ﻿using BookManager.Box;
-using Moq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static BookManager.Book.BookViewModel;
 
 namespace BookManagerTest.Box
 {
@@ -153,7 +146,7 @@ namespace BookManagerTest.Box
         /// <summary>
         /// 差分を取るテストがあるのでもう作っちゃう
         /// </summary>
-        private class BoxModelStub : IBoxModel
+        private class BoxModelStub : IBoxUsecase
         {
             List<BoxData> innerData = [];
             /// <summary>

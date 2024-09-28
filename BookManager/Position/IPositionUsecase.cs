@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Position
+﻿namespace BookManager.Position
 {
     /// <summary>
-    /// 配置に対してできる操作のインタフェース(主キーのみなのでUpdateはありえない)
+    /// 配置に関するユースケースのインタフェース(現状主キーのみなのでUpdateはありえない)
     /// </summary>
-    public interface IPositionModel
+    public interface IPositionUsecase
     {
         /// <summary>
         /// 配置を挿入

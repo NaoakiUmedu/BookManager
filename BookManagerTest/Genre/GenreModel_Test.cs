@@ -1,11 +1,5 @@
 ﻿using BookManager.Genre;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
-using System.Windows.Controls.Primitives;
 
 namespace BookManagerTest.Genre
 {
@@ -23,7 +17,7 @@ namespace BookManagerTest.Genre
             };
             var mock = new Mock<IGenreDataAccess>();
             mock.Setup(x => x.SelectAllGenre()).Returns(testData);
-            var model = new GenreModel(mock.Object);
+            var model = new GenreUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);
@@ -54,7 +48,7 @@ namespace BookManagerTest.Genre
             };
             var mock = new Mock<IGenreDataAccess>();
             mock.Setup(x => x.SelectAllGenre()).Returns(willReturnData);
-            var model = new GenreModel(mock.Object);
+            var model = new GenreUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);

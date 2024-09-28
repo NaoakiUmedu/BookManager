@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static BookManager.Book.BookViewModel;
+﻿using static BookManager.Book.BookViewModel;
 using System.Collections.ObjectModel;
 
 using BookManager.Book;
@@ -8,10 +7,6 @@ using Moq;
 using BookManager.Box;
 using BookManager.Genre;
 using BookManager.Position;
-using System.Net.Http.Headers;
-using System.Runtime.Intrinsics.X86;
-using static System.Reflection.Metadata.BlobBuilder;
-using System.Collections.Immutable;
 
 namespace BookManagerTest.Book
 {
@@ -44,20 +39,20 @@ namespace BookManagerTest.Book
         [TestMethod]
         public void SaveRead_Test()
         {
-            var box = new Mock<IBoxModel>();
+            var box = new Mock<IBoxUsecase>();
             box.Setup(x => x.Read()).Returns(new List<BoxData>() { new BoxData { BoxName = "新書1" } });
             box.Setup(x => x.Insert(new List<BoxData>() { new BoxData { BoxName = "自然科学1" } })).Verifiable();
 
-            var genre = new Mock<IGenreModel>();
+            var genre = new Mock<IGenreUsecase>();
             genre.Setup(x => x.Read()).Returns(new List<GenreData>() { new GenreData { GenreName = "自然科学" } });
             genre.Setup(x => x.Insert(new List<GenreData>() { new GenreData { GenreName = "歴史" } })).Verifiable();
 
-            var position = new Mock<IPositionModel>();
+            var position = new Mock<IPositionUsecase>();
             position.Setup(x => x.Read()).Returns(new List<PositionData>() { new PositionData { Position = "本棚(小)" } });
             position.Setup(x => x.Insert(new List<PositionData>() { new PositionData { Position = "本棚(大)" } })).Verifiable();
 
             // Ararnge
-            var vm = new BookViewModel(bookModel: CreateMock(), boxModel:box.Object, genreModel:genre.Object, positionModel:position.Object);
+            var vm = new BookViewModel(bookUsecaseImpl: CreateMock(), boxUsecaseImpl:box.Object, genreUsecaseImpl:genre.Object, positionUsecaseImpl:position.Object);
             vm.BookViewDatas = testInputData;
 
             // Action
@@ -84,18 +79,18 @@ namespace BookManagerTest.Book
                 new BookData(){Id = Guid.NewGuid(), BookName="新世界より1", Auther="貴志祐介", Genre="小説", Position="所属段ボール", Box="文庫1(エンタメ)"},
                 new BookData(){Id = Guid.NewGuid(), BookName="新世界より2", Auther="貴志祐介", Genre="小説", Position="本棚(大)", Box="文庫1(エンタメ)"},
             };
-            var mock = new Mock<IBookModel>();
+            var mock = new Mock<IBookUsecase>();
             mock.Setup(x => x.Read()).Returns(willReturn);
 
-            var box = new Mock<IBoxModel>();
+            var box = new Mock<IBoxUsecase>();
             box.Setup(x => x.Read()).Returns(new List<BoxData>() { new BoxData { BoxName = "新書1" } });
             box.Setup(x => x.Insert(new List<BoxData>() { new BoxData { BoxName = "自然科学1" } })).Verifiable();
 
-            var genre = new Mock<IGenreModel>();
+            var genre = new Mock<IGenreUsecase>();
             genre.Setup(x => x.Read()).Returns(new List<GenreData>() { new GenreData { GenreName = "自然科学" } });
             genre.Setup(x => x.Insert(new List<GenreData>() { new GenreData { GenreName = "歴史" } })).Verifiable();
 
-            var position = new Mock<IPositionModel>();
+            var position = new Mock<IPositionUsecase>();
             position.Setup(x => x.Read()).Returns(new List<PositionData>() { new PositionData { Position = "本棚(小)" } });
             position.Setup(x => x.Insert(new List<PositionData>() { new PositionData { Position = "本棚(大)" } })).Verifiable();
 
@@ -174,18 +169,18 @@ namespace BookManagerTest.Book
                 }
             };
 
-            var mock = new Mock<IBookModel>();
+            var mock = new Mock<IBookUsecase>();
             mock.Setup(x => x.Read()).Returns(willReturn);
 
-            var box = new Mock<IBoxModel>();
+            var box = new Mock<IBoxUsecase>();
             box.Setup(x => x.Read()).Returns(new List<BoxData>() { new BoxData { BoxName = "新書1" } });
             box.Setup(x => x.Insert(new List<BoxData>() { new BoxData { BoxName = "自然科学1" } })).Verifiable();
 
-            var genre = new Mock<IGenreModel>();
+            var genre = new Mock<IGenreUsecase>();
             genre.Setup(x => x.Read()).Returns(new List<GenreData>() { new GenreData { GenreName = "自然科学" } });
             genre.Setup(x => x.Insert(new List<GenreData>() { new GenreData { GenreName = "歴史" } })).Verifiable();
 
-            var position = new Mock<IPositionModel>();
+            var position = new Mock<IPositionUsecase>();
             position.Setup(x => x.Read()).Returns(new List<PositionData>() { new PositionData { Position = "本棚(小)" } });
             position.Setup(x => x.Insert(new List<PositionData>() { new PositionData { Position = "本棚(大)" } })).Verifiable();
 
@@ -204,14 +199,14 @@ namespace BookManagerTest.Book
             position.Verify();
         }
 
-        private IBookModel CreateMock()
+        private IBookUsecase CreateMock()
         {
             // testInputDataを元に作られるはずのデータ
             var modelDatas = from book in testInputData
                              select new BookData() { Id = book.Id, BookName = book.BookName, Auther = book.Auther, Genre = book.Genre, Position = book.Position, Box = book.BookName };
 
             // mockは↑を貰い、↑を返す
-            var moqModel = new Mock<IBookModel>();
+            var moqModel = new Mock<IBookUsecase>();
             moqModel.Setup(x => x.Read()).Returns(modelDatas.ToList());
 
             return moqModel.Object;
@@ -228,7 +223,7 @@ namespace BookManagerTest.Book
                 new BoxData(){BoxName = "文庫1(エンタメ)"},
                 new BoxData(){BoxName = "文庫2(教養)"},
             };
-            var boxMock = new Mock<IBoxModel>();
+            var boxMock = new Mock<IBoxUsecase>();
             boxMock.Setup(x => x.Read()).Returns(boxList);
 
             var genreList = new List<GenreData>()
@@ -236,21 +231,21 @@ namespace BookManagerTest.Book
                 new GenreData(){GenreName = "小説"},
                 new GenreData(){GenreName = "歴史"}
             };
-            var genreMock = new Mock<IGenreModel>();
+            var genreMock = new Mock<IGenreUsecase>();
             genreMock.Setup(x => x.Read()).Returns(genreList);
 
             var positionList = new List<PositionData>() {
                 new PositionData(){Position = "所属段ボール"},
                 new PositionData(){Position = "本棚(小)"}
             };
-            var positionMock = new Mock<IPositionModel>();
+            var positionMock = new Mock<IPositionUsecase>();
             positionMock.Setup(x => x.Read()).Returns(positionList);
 
             // Action
             var vm = new BookViewModel(
-                boxModel: boxMock.Object,
-                genreModel: genreMock.Object,
-                positionModel: positionMock.Object);
+                boxUsecaseImpl: boxMock.Object,
+                genreUsecaseImpl: genreMock.Object,
+                positionUsecaseImpl: positionMock.Object);
             vm.UpdatePulldown();
 
             // Assert
@@ -300,10 +295,10 @@ namespace BookManagerTest.Book
                 }
             };
 
-            var mock = new Mock<IBookModel>();
+            var mock = new Mock<IBookUsecase>();
             mock.Setup(x => x.Import(filePath)).Returns(willReturn).Verifiable();
 
-            var vm = new BookViewModel(bookModel:mock.Object);
+            var vm = new BookViewModel(bookUsecaseImpl:mock.Object);
             vm.Import(filePath);
 
             Assert.AreEqual(willReturn.Count, vm.BookViewDatas.Count);
@@ -402,10 +397,10 @@ namespace BookManagerTest.Book
                 }
             };
 
-            var mock = new Mock<IBookModel>();
+            var mock = new Mock<IBookUsecase>();
             mock.Setup(x => x.Export(filePath, willCalled)).Verifiable();
 
-            var vm = new BookViewModel(bookModel: mock.Object);
+            var vm = new BookViewModel(bookUsecaseImpl: mock.Object);
             vm.BookViewDatas = inputData;
             vm.Export(filePath);
 

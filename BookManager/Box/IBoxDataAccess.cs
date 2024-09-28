@@ -1,12 +1,8 @@
-﻿using BookManager.Book;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Box
+﻿namespace BookManager.Box
 {
+    /// <summary>
+    /// 段ボールのデータアクセッサのインターフェース
+    /// </summary>
     public interface IBoxDataAccess
     {
         /// <summary>

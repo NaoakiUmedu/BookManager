@@ -1,11 +1,5 @@
 ﻿using BookManager.Box;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
-using System.Windows.Controls.Primitives;
 
 namespace BookManagerTest.Box
 {
@@ -23,7 +17,7 @@ namespace BookManagerTest.Box
             };
             var mock = new Mock<IBoxDataAccess>();
             mock.Setup(x => x.SelectAllBox()).Returns(testData);
-            var model = new BoxModel(mock.Object);
+            var model = new BoxUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);
@@ -54,7 +48,7 @@ namespace BookManagerTest.Box
             };
             var mock = new Mock<IBoxDataAccess>();
             mock.Setup(x => x.SelectAllBox()).Returns(willReturnData);
-            var model = new BoxModel(mock.Object);
+            var model = new BoxUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);

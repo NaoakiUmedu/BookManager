@@ -1,11 +1,5 @@
 ﻿using BookManager.Position;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.DataCollection;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookManagerTest.Position
 {
@@ -152,7 +146,7 @@ namespace BookManagerTest.Position
         /// <summary>
         /// 差分を取るテストがあるのでもう作っちゃう
         /// </summary>
-        private class PositionModelStub : IPositionModel
+        private class PositionModelStub : IPositionUsecase
         {
             List<PositionData> innerData = [];
             /// <summary>

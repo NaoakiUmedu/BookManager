@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Book
+﻿namespace BookManager.Book
 {
+    /// <summary>
+    /// 蔵書データアクセッサのインターフェース
+    /// </summary>
     internal interface IBookDataAccess
     {
         /// <summary>

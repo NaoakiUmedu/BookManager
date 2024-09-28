@@ -1,12 +1,5 @@
 ﻿using BookManager.Book;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace BookManagerTest.Book
 {
@@ -70,7 +63,7 @@ namespace BookManagerTest.Book
         public void InsertBook_Test()
         {
             // Arrange
-            var bookmodel = new BookModel(dbDa:new StubBookDataAccess());
+            var bookmodel = new BookUsecaseImpl(dbDa:new StubBookDataAccess());
             var books = new List<BookData>()
             {
                 new BookData()
@@ -138,7 +131,7 @@ namespace BookManagerTest.Book
             } };
 
             // Arrange
-            var bookmodel = new BookModel(dbDa: new StubBookDataAccess());
+            var bookmodel = new BookUsecaseImpl(dbDa: new StubBookDataAccess());
             bookmodel.Insert(books);
             bookmodel.Update(updatedBooks);
 
@@ -164,7 +157,7 @@ namespace BookManagerTest.Book
         {
             // Arrange
             var deleteId = Guid.NewGuid();
-            var bookmodel = new BookModel(dbDa: new StubBookDataAccess());
+            var bookmodel = new BookUsecaseImpl(dbDa: new StubBookDataAccess());
             var books = new List<BookData>()
             {
                 new BookData()
@@ -239,7 +232,7 @@ namespace BookManagerTest.Book
             var mock = new Mock<IImportExportBookDataAccess>();
             mock.Setup(x => x.ExportBooks(filePath, books)).Verifiable();
 
-            var model = new BookModel(importExportDataAccesser: mock.Object);
+            var model = new BookUsecaseImpl(importExportDataAccesser: mock.Object);
             model.Export(filePath, books);
 
             mock.Verify();
@@ -275,7 +268,7 @@ namespace BookManagerTest.Book
             var stub = new Mock<IImportExportBookDataAccess>();
             stub.Setup(x => x.ImportBooks(filePath)).Returns(books);
 
-            var model = new BookModel(importExportDataAccesser: stub.Object);
+            var model = new BookUsecaseImpl(importExportDataAccesser: stub.Object);
             var imported = model.Import(filePath);
 
             Assert.AreEqual(books.Count, imported.Count);

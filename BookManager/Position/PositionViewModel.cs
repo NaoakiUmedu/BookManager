@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static BookManager.Book.BookViewModel;
 
 namespace BookManager.Position
 {
+    /// <summary>
+    /// 配置一覧画面のViewModel
+    /// </summary>
     internal class PositionViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// モデル
         /// </summary>
-        private readonly IPositionModel model = new PositionModel();
+        private readonly IPositionUsecase model = new PositionUsecaseImpl();
         /// <summary>
         /// コンストラクタ(本番用)
         /// </summary>
@@ -27,7 +24,7 @@ namespace BookManager.Position
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">モデル</param>
-        public PositionViewModel(IPositionModel model)
+        public PositionViewModel(IPositionUsecase model)
         {
             this.model = model;
         }

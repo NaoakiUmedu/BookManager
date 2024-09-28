@@ -1,6 +1,4 @@
 ﻿using BookManager.Book;
-using System.IO;
-using System.Windows.Shapes;
 
 namespace BookManagerTest.Book
 {

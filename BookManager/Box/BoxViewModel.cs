@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static BookManager.Book.BookViewModel;
 
 namespace BookManager.Box
 {
+    /// <summary>
+    /// 段ボール一覧画面のViewModel
+    /// </summary>
     internal class BoxViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// モデル
         /// </summary>
-        private readonly IBoxModel model = new BoxModel();
+        private readonly IBoxUsecase model = new BoxUsecaseImpl();
         /// <summary>
         /// コンストラクタ(本番用)
         /// </summary>
@@ -27,7 +24,7 @@ namespace BookManager.Box
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">モデル</param>
-        public BoxViewModel(IBoxModel model)
+        public BoxViewModel(IBoxUsecase model)
         {
             this.model = model;
         }

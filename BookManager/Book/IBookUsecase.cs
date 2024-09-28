@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Packaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookManager.Book
+﻿namespace BookManager.Book
 {
-    public interface IBookModel
+    /// <summary>
+    /// 蔵書に関するユースケースのインターフェース
+    /// </summary>
+    public interface IBookUsecase
     {
         /// <summary>
         /// 本を追加する
