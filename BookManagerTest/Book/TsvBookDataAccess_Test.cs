@@ -69,7 +69,8 @@ namespace BookManagerTest.Book
             "中世への旅　農民戦争と傭兵	ハインリヒ ブレティヒャ	歴史	本棚(小)	新書1"
         };
 
-        private string testFilePath = @"C:\Users\anija\Desktop\codes\BookManager\BookManagerTest\TestDb\Test.tsv";
+        // どうせ直ぐ消すしその辺に作っちゃえ
+        private string testFilePath = @"Test.tsv";
 
         private List<String> TextFileRead(string filePath)
         {
