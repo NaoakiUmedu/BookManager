@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Position
 {
+    /// <summary>
+    /// 配置データアクセッサのインターフェース
+    /// </summary>
     public interface IPositionDataAccess
     {
         /// <summary>

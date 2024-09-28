@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace BookManager.Position
 {
+    /// <summary>
+    /// SQLiteによる配置データアクセッサ
+    /// </summary>
     internal class SqlitePositionDataAccess : IPositionDataAccess
     {
         /// <summary>

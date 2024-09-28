@@ -10,6 +10,9 @@ using static BookManager.Book.BookViewModel;
 
 namespace BookManager.Position
 {
+    /// <summary>
+    /// 配置一覧画面のViewModel
+    /// </summary>
     internal class PositionViewModel : INotifyPropertyChanged
     {
         /// <summary>
