@@ -153,7 +153,7 @@ namespace BookManagerTest.Genre
         /// <summary>
         /// 差分を取るテストがあるのでもう作っちゃう
         /// </summary>
-        private class GenreModelStub : IGenreModel
+        private class GenreModelStub : IGenreUsecase
         {
             List<GenreData> innerData = [];
             /// <summary>

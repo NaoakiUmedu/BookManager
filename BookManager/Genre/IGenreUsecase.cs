@@ -4,27 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManager.Position
+namespace BookManager.Genre
 {
     /// <summary>
-    /// 配置に対してできる操作のインタフェース(主キーのみなのでUpdateはありえない)
+    /// ジャンルに関するユースケースのインタフェース(現状主キーのみなのでUpdateはありえない)
     /// </summary>
-    public interface IPositionModel
+    public interface IGenreUsecase
     {
         /// <summary>
-        /// 配置を挿入
+        /// ジャンルを挿入
         /// </summary>
         /// <param name=""></param>
-        public void Insert(List<PositionData> data);
+        public void Insert(List<GenreData> data);
         /// <summary>
         /// 全件読み込み
         /// </summary>
         /// <returns>データ</returns>
-        public List<PositionData> Read();
+        public List<GenreData> Read();
         /// <summary>
-        /// 指定した配置を削除
+        /// 指定したジャンルを削除
         /// </summary>
         /// <param name="data"></param>
-        public void Delete(List<PositionData> data);
+        public void Delete(List<GenreData> data);
     }
 }

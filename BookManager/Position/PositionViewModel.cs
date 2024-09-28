@@ -15,7 +15,7 @@ namespace BookManager.Position
         /// <summary>
         /// モデル
         /// </summary>
-        private readonly IPositionModel model = new PositionModel();
+        private readonly IPositionUsecase model = new PositionUsecaseImpl();
         /// <summary>
         /// コンストラクタ(本番用)
         /// </summary>
@@ -27,7 +27,7 @@ namespace BookManager.Position
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">モデル</param>
-        public PositionViewModel(IPositionModel model)
+        public PositionViewModel(IPositionUsecase model)
         {
             this.model = model;
         }

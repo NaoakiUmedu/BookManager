@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
-    internal class BookModel : IBookModel
+    /// <summary>
+    /// 蔵書に関するユースケースの実装
+    /// </summary>
+    internal class BookUsecaseImpl : IBookUsecase
     {
         /// <summary>
         /// DB用データアクセッサ
@@ -22,7 +25,7 @@ namespace BookManager.Book
         /// </summary>
         /// <param name="dbDa">データアクセッサ</param>
         /// <param name="importExportDataAccesser">インポート・エクスポート用データアクセッサ</par
-        public BookModel(
+        public BookUsecaseImpl(
             IBookDataAccess? dbDa = null,
             IImportExportBookDataAccess? importExportDataAccesser = null)
         {

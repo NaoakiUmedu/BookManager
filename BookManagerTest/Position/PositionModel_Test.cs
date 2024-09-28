@@ -22,7 +22,7 @@ namespace BookManagerTest.Position
             };
             var mock = new Mock<IPositionDataAccess>();
             mock.Setup(x => x.SelectAllPosition()).Returns(testData);
-            var model = new PositionModel(mock.Object);
+            var model = new PositionUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);
@@ -53,7 +53,7 @@ namespace BookManagerTest.Position
             };
             var mock = new Mock<IPositionDataAccess>();
             mock.Setup(x => x.SelectAllPosition()).Returns(willReturnData);
-            var model = new PositionModel(mock.Object);
+            var model = new PositionUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);

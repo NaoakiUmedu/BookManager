@@ -153,7 +153,7 @@ namespace BookManagerTest.Box
         /// <summary>
         /// 差分を取るテストがあるのでもう作っちゃう
         /// </summary>
-        private class BoxModelStub : IBoxModel
+        private class BoxModelStub : IBoxUsecase
         {
             List<BoxData> innerData = [];
             /// <summary>

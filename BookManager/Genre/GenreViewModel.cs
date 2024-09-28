@@ -15,7 +15,7 @@ namespace BookManager.Genre
         /// <summary>
         /// モデル
         /// </summary>
-        private readonly IGenreModel model = new GenreModel();
+        private readonly IGenreUsecase model = new GenreUsecaseImpl();
         /// <summary>
         /// コンストラクタ(本番用)
         /// </summary>
@@ -27,7 +27,7 @@ namespace BookManager.Genre
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">モデル</param>
-        public GenreViewModel(IGenreModel model)
+        public GenreViewModel(IGenreUsecase model)
         {
             this.model = model;
         }

@@ -152,7 +152,7 @@ namespace BookManagerTest.Position
         /// <summary>
         /// 差分を取るテストがあるのでもう作っちゃう
         /// </summary>
-        private class PositionModelStub : IPositionModel
+        private class PositionModelStub : IPositionUsecase
         {
             List<PositionData> innerData = [];
             /// <summary>

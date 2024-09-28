@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace BookManager.Book
 {
-    public interface IBookModel
+    /// <summary>
+    /// 蔵書に関するユースケースのインターフェース
+    /// </summary>
+    public interface IBookUsecase
     {
         /// <summary>
         /// 本を追加する

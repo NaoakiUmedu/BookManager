@@ -15,7 +15,7 @@ namespace BookManager.Box
         /// <summary>
         /// モデル
         /// </summary>
-        private readonly IBoxModel model = new BoxModel();
+        private readonly IBoxUsecase model = new BoxUsecaseImpl();
         /// <summary>
         /// コンストラクタ(本番用)
         /// </summary>
@@ -27,7 +27,7 @@ namespace BookManager.Box
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="model">モデル</param>
-        public BoxViewModel(IBoxModel model)
+        public BoxViewModel(IBoxUsecase model)
         {
             this.model = model;
         }

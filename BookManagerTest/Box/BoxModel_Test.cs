@@ -23,7 +23,7 @@ namespace BookManagerTest.Box
             };
             var mock = new Mock<IBoxDataAccess>();
             mock.Setup(x => x.SelectAllBox()).Returns(testData);
-            var model = new BoxModel(mock.Object);
+            var model = new BoxUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);
@@ -54,7 +54,7 @@ namespace BookManagerTest.Box
             };
             var mock = new Mock<IBoxDataAccess>();
             mock.Setup(x => x.SelectAllBox()).Returns(willReturnData);
-            var model = new BoxModel(mock.Object);
+            var model = new BoxUsecaseImpl(mock.Object);
 
             // Act
             model.Insert(testData);

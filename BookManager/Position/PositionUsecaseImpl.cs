@@ -1,54 +1,58 @@
-﻿using System;
+﻿using BookManager.Position;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManager.Genre
+namespace BookManager.Position
 {
-    internal class GenreModel : IGenreModel
+    /// <summary>
+    /// 配置に関するユースケースの実装
+    /// </summary>
+    internal class PositionUsecaseImpl : IPositionUsecase
     {
         /// <summary>
         /// データアクセッサ(デフォルトでは本番環境)
         /// </summary>
-        private IGenreDataAccess dataAccess = new SqliteGenreDataAccess();
+        private IPositionDataAccess dataAccess = new SqlitePositionDataAccess();
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="dataAccess">データアクセッサ</param>
-        public GenreModel(IGenreDataAccess? dataAccess = null)
+        public PositionUsecaseImpl(IPositionDataAccess? dataAccess = null)
         {
             this.dataAccess = dataAccess ?? this.dataAccess;
         }
 
         /// <summary>
-        /// ジャンルを挿入
+        /// 配置を挿入
         /// </summary>
         /// <param name=""></param>
-        public void Insert(List<GenreData> data)
+        public void Insert(List<PositionData> data)
         {
-            foreach(var datum in data)
+            foreach (var datum in data)
             {
-                dataAccess.InsertGenre(datum);
+                dataAccess.InsertPosition(datum);
             }
         }
         /// <summary>
         /// 全件読み込み
         /// </summary>
         /// <returns>データ</returns>
-        public List<GenreData> Read()
+        public List<PositionData> Read()
         {
-            return dataAccess.SelectAllGenre();
+            return dataAccess.SelectAllPosition();
         }
         /// <summary>
-        /// 指定したジャンルを削除
+        /// 指定した配置を削除
         /// </summary>
         /// <param name="data"></param>
-        public void Delete(List<GenreData> data)
+        public void Delete(List<PositionData> data)
         {
             foreach (var datum in data)
             {
-                dataAccess.DeleteGenre(datum);
+                dataAccess.DeletePosition(datum);
             }
         }
     }

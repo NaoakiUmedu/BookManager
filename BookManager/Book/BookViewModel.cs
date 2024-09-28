@@ -20,19 +20,19 @@ namespace BookManager.Book
         /// <summary>
         /// 蔵書一覧モデルクラス
         /// </summary>
-        private readonly IBookModel bookModel = new BookModel();
+        private readonly IBookUsecase bookModel = new BookUsecaseImpl();
         /// <summary>
         /// 段ボールモデルクラス
         /// </summary>
-        private readonly Box.IBoxModel boxModel = new Box.BoxModel();
+        private readonly Box.IBoxUsecase boxModel = new Box.BoxUsecaseImpl();
         /// <summary>
         /// ジャンルモデルクラス
         /// </summary>
-        private readonly Genre.IGenreModel genreModel = new Genre.GenreModel();
+        private readonly Genre.IGenreUsecase genreModel = new Genre.GenreUsecaseImpl();
         /// <summary>
         /// 配置モデルクラス
         /// </summary>
-        private readonly Position.IPositionModel positionModel = new Position.PositionModel();
+        private readonly Position.IPositionUsecase positionModel = new Position.PositionUsecaseImpl();
 
         /// <summary>
         /// コンストラクタ
@@ -47,10 +47,10 @@ namespace BookManager.Book
         /// </summary>
         /// <param name="bookModel">蔵書一覧モデルクラス</param>
         public BookViewModel(
-            IBookModel? bookModel = null,
-            Box.IBoxModel? boxModel = null,
-            Genre.IGenreModel? genreModel = null,
-            Position.IPositionModel? positionModel = null)
+            IBookUsecase? bookModel = null,
+            Box.IBoxUsecase? boxModel = null,
+            Genre.IGenreUsecase? genreModel = null,
+            Position.IPositionUsecase? positionModel = null)
         {
             this.bookModel = bookModel ?? this.bookModel;
             this.boxModel = boxModel ?? this.boxModel;

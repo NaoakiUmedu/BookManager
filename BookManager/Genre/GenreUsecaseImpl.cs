@@ -4,51 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManager.Box
+namespace BookManager.Genre
 {
-    internal class BoxModel : IBoxModel
+    /// <summary>
+    /// ジャンル一覧に関するユースケースの実装
+    /// </summary>
+    internal class GenreUsecaseImpl : IGenreUsecase
     {
         /// <summary>
         /// データアクセッサ(デフォルトでは本番環境)
         /// </summary>
-        private IBoxDataAccess dataAccess = new SqliteBoxDataAccess();
+        private IGenreDataAccess dataAccess = new SqliteGenreDataAccess();
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>
         /// <param name="dataAccess">データアクセッサ</param>
-        public BoxModel(IBoxDataAccess? dataAccess = null)
+        public GenreUsecaseImpl(IGenreDataAccess? dataAccess = null)
         {
             this.dataAccess = dataAccess ?? this.dataAccess;
         }
 
         /// <summary>
-        /// 段ボールを挿入
+        /// ジャンルを挿入
         /// </summary>
         /// <param name=""></param>
-        public void Insert(List<BoxData> data)
+        public void Insert(List<GenreData> data)
         {
             foreach(var datum in data)
             {
-                dataAccess.InsertBox(datum);
+                dataAccess.InsertGenre(datum);
             }
         }
         /// <summary>
         /// 全件読み込み
         /// </summary>
         /// <returns>データ</returns>
-        public List<BoxData> Read()
+        public List<GenreData> Read()
         {
-            return dataAccess.SelectAllBox();
+            return dataAccess.SelectAllGenre();
         }
         /// <summary>
-        /// 指定した段ボールを削除
+        /// 指定したジャンルを削除
         /// </summary>
         /// <param name="data"></param>
-        public void Delete(List<BoxData> data)
+        public void Delete(List<GenreData> data)
         {
             foreach (var datum in data)
             {
-                dataAccess.DeleteBox(datum);
+                dataAccess.DeleteGenre(datum);
             }
         }
     }
