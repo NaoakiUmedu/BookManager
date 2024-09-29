@@ -1,0 +1,163 @@
+@startuml classes
+class MainWindow {
+
+}
+package Book_蔵書 {
+    class BookWindow {
+
+    }
+    class BookViewModel {
+
+    }
+    note left of BookViewModel
+        すべてを画面に出すため
+        各パッケージのユースケースを
+        参照している。
+        改善の余地あり。
+    end note
+    interface IBookUsecase {
+
+    }
+    class BookUsecaseImpl {
+
+    }
+    IBookUsecase <|.. BookUsecaseImpl
+    class BookData {
+
+    }
+    interface IBookDataAccess {
+
+    }
+    class SqliteBookDataAccess {
+
+    }
+    IBookDataAccess <|.. SqliteBookDataAccess
+    interface IImportExportBookDataAccess {
+
+    }
+    class TsvBookDataAccess {
+
+    }
+    IImportExportBookDataAccess <|.. TsvBookDataAccess
+
+    BookWindow *-- BookViewModel
+    BookViewModel *-- IBookUsecase
+    BookUsecaseImpl *-- IBookDataAccess
+    BookUsecaseImpl *-- IImportExportBookDataAccess
+
+    BookViewModel --> BookData
+    BookUsecaseImpl -> BookData
+    BookData <-- IBookDataAccess
+    BookData <-- IImportExportBookDataAccess
+}
+
+package Genre_ジャンル {
+    class GenreWindow {
+
+    }
+    class GenreViewModel {
+
+    }
+    interface IGenreUsecase {
+
+    }
+    class GenreUsecaseImpl {
+
+    }
+    IGenreUsecase <|.. GenreUsecaseImpl
+    class GenreData {
+
+    }
+    interface IGenreDataAccess {
+
+    }
+    class SqliteGenreDataAccess {
+
+    }
+    IGenreDataAccess <|.. SqliteGenreDataAccess
+
+    GenreWindow *-- GenreViewModel
+    GenreViewModel *-- IGenreUsecase
+    GenreUsecaseImpl *-- IGenreDataAccess
+
+    GenreViewModel --> GenreData
+    GenreUsecaseImpl -> GenreData
+    GenreData <-- IGenreDataAccess
+}
+
+package Box_段ボール {
+    class BoxWindow {
+
+    }
+    class BoxViewModel {
+
+    }
+    interface IBoxUsecase {
+
+    }
+    class BoxUsecaseImpl {
+
+    }
+    IBoxUsecase <|.. BoxUsecaseImpl
+    class BoxData {
+
+    }
+    interface IBoxDataAccess {
+
+    }
+    class SqliteBoxDataAccess {
+
+    }
+    IBoxDataAccess <|.. SqliteBoxDataAccess
+
+    BoxWindow *-- BoxViewModel
+    BoxViewModel *-- IBoxUsecase
+    BoxUsecaseImpl *-- IBoxDataAccess
+
+    BoxViewModel --> BoxData
+    BoxUsecaseImpl -> BoxData
+    BoxData <-- IBoxDataAccess
+}
+
+package Position_配置 {
+    class PositionWindow {
+
+    }
+    class PositionViewModel {
+
+    }
+    interface IPositionUsecase {
+
+    }
+    class PositionUsecaseImpl {
+
+    }
+    IPositionUsecase <|.. PositionUsecaseImpl
+    class PositionData {
+
+    }
+    interface IPositionDataAccess {
+
+    }
+    class SqlitePositionDataAccess {
+
+    }
+    IPositionDataAccess <|.. SqlitePositionDataAccess
+
+    PositionWindow *-- PositionViewModel
+    PositionViewModel *-- IPositionUsecase
+    PositionUsecaseImpl *-- IPositionDataAccess
+
+    PositionViewModel --> PositionData
+    PositionUsecaseImpl -> PositionData
+    PositionData <-- IPositionDataAccess
+}
+
+MainWindow --> BookWindow
+MainWindow --> GenreWindow
+MainWindow --> BoxWindow
+MainWindow --> PositionWindow
+BookViewModel *-- IGenreUsecase
+BookViewModel *-- IBoxUsecase
+BookViewModel *-- IPositionUsecase
+@enduml
