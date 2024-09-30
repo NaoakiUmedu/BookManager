@@ -46,7 +46,7 @@ package Book_蔵書 {
     BookUsecaseImpl *-- IImportExportBookDataAccess
 
     BookViewModel --> BookData
-    BookUsecaseImpl -> BookData
+    IBookUsecase -> BookData
     BookData <-- IBookDataAccess
     BookData <-- IImportExportBookDataAccess
 }
@@ -81,7 +81,7 @@ package Genre_ジャンル {
     GenreUsecaseImpl *-- IGenreDataAccess
 
     GenreViewModel --> GenreData
-    GenreUsecaseImpl -> GenreData
+    IGenreUsecase -> GenreData
     GenreData <-- IGenreDataAccess
 }
 
@@ -115,7 +115,7 @@ package Box_段ボール {
     BoxUsecaseImpl *-- IBoxDataAccess
 
     BoxViewModel --> BoxData
-    BoxUsecaseImpl -> BoxData
+    IBoxUsecase -> BoxData
     BoxData <-- IBoxDataAccess
 }
 
@@ -149,7 +149,7 @@ package Position_配置 {
     PositionUsecaseImpl *-- IPositionDataAccess
 
     PositionViewModel --> PositionData
-    PositionUsecaseImpl -> PositionData
+    IPositionUsecase -> PositionData
     PositionData <-- IPositionDataAccess
 }
 
