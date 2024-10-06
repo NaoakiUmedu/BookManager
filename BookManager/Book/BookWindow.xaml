@@ -47,7 +47,7 @@
         </Grid.ColumnDefinitions>
         <Button Content="検索" Name="Button_Seach"  Width="100" Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" Click="Button_Seach_Click" />
         <Button Content="検索解除" Name="Button_Seach_Cancel"  Width="100" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" Click="Button_Seach_Cancel_Click" />
-        <TextBox Name="TextBox_Search" Height="30" Width="300" Grid.Row="1" Grid.Column="3" ></TextBox>
+        <TextBox Name="TextBox_Search" Height="30" Width="300" Grid.Row="1" Grid.Column="3" KeyDown="TextBox_Search_KeyDown"></TextBox>
 
         <DataGrid Name="DataGrid_Book" ItemsSource="{Binding BookViewDatas}"
                   Grid.Row="3" Grid.RowSpan="5" Grid.Column="1" Grid.ColumnSpan="4"

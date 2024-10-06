@@ -117,5 +117,19 @@ namespace BookManager.Book
             var vm = this.DataContext as BookViewModel;
             vm?.ReadBook();
         }
+
+        /// <summary>
+        /// 検索テキストボックスにてキーが押された時の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                // エンターキーの場合、検索を実施
+                Button_Seach_Click(sender, new RoutedEventArgs());
+            }
+        }
     }
 }
