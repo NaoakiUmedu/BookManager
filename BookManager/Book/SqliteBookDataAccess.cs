@@ -22,7 +22,10 @@ namespace BookManager.Book
         /// コンストラクタ
         /// </summary>
         /// <param name="connectionString">DBファイルのパス(省略で本番ファイル)</param>
-        public SqliteBookDataAccess(string? connectionString = null, System.Data.IsolationLevel? isolationLevel = null)
+        /// <param name="isolationLevel">アイソレーションレベル(省略でSerializable)</param>
+        public SqliteBookDataAccess(
+            string? connectionString = null,
+            System.Data.IsolationLevel? isolationLevel = null)
         {
             if(connectionString != null)
             {

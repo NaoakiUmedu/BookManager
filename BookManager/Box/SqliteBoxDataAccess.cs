@@ -21,7 +21,10 @@ namespace BookManager.Box
         /// コンストラクタ
         /// </summary>
         /// <param name="connectionString">DBファイルのパス(省略で本番ファイル)</param>
-        public SqliteBoxDataAccess(string? connectionString = null, System.Data.IsolationLevel? isolationLevel = null)
+        /// <param name="isolationLevel">アイソレーションレベル(省略でSerializable)</param>
+        public SqliteBoxDataAccess(
+            string? connectionString = null,
+            System.Data.IsolationLevel? isolationLevel = null)
         {
             if (connectionString != null)
             {
@@ -88,6 +91,7 @@ namespace BookManager.Box
                     {
                         using (var command = new SqliteCommand(quely, connection))
                         {
+                            command.Transaction = transaction;
                             command.ExecuteNonQuery();
                         }
                         transaction.Commit();
@@ -118,6 +122,7 @@ namespace BookManager.Box
                     {
                         using (var command = new SqliteCommand(quely, connection))
                         {
+                            command.Transaction = transaction;
                             command.ExecuteNonQuery();
                         }
                         transaction.Commit();
