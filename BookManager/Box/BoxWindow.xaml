@@ -28,7 +28,7 @@
         <DataGrid Name="BoxDataGrid" ItemsSource="{Binding BoxViewDatas}" Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="1"
                 AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="段ボール" Binding="{Binding BoxName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="段ボール" Binding="{Binding BoxName}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="追加" Name="Button_Add" Height="30"  Width="100" Grid.Row="1" Grid.Column="3" Click="Button_Add_Click"></Button>

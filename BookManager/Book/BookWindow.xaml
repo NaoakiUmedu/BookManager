@@ -54,11 +54,11 @@
                   AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridComboBoxColumn Header="操作" ItemsSource="{Binding Source={StaticResource OperationChoiceResource}}" SelectedItemBinding="{Binding Operation}"></DataGridComboBoxColumn>
-                <DataGridTextColumn Header="書名" Binding="{Binding BookName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="著者名" Binding="{Binding Auther}"></DataGridTextColumn>
-                <DataGridComboBoxColumn Header="ジャンル" ItemsSource="{Binding Source={StaticResource GenreChoiseResource}}" SelectedItemBinding="{Binding Genre}"></DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="配置" ItemsSource="{Binding Source={StaticResource PositionChoiseResource}}" SelectedItemBinding="{Binding Position}"></DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="所属段ボール" ItemsSource="{Binding Source={StaticResource BoxChoiseResource}}" SelectedItemBinding="{Binding Box}"></DataGridComboBoxColumn>
+                <DataGridTextColumn Header="書名" Binding="{Binding BookName}" Width="100*"></DataGridTextColumn>
+                <DataGridTextColumn Header="著者名" Binding="{Binding Auther}" Width="100*"></DataGridTextColumn>
+                <DataGridComboBoxColumn Header="ジャンル" ItemsSource="{Binding Source={StaticResource GenreChoiseResource}}" SelectedItemBinding="{Binding Genre}" Width="40*"></DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="配置" ItemsSource="{Binding Source={StaticResource PositionChoiseResource}}" SelectedItemBinding="{Binding Position}" Width="40*"></DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="所属段ボール" ItemsSource="{Binding Source={StaticResource BoxChoiseResource}}" SelectedItemBinding="{Binding Box}" Width="40*"></DataGridComboBoxColumn>
             </DataGrid.Columns>
         </DataGrid>
 
