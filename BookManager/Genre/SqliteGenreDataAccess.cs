@@ -16,7 +16,7 @@ namespace BookManager.Genre
         /// <summary>
         /// アイソレーションレベル
         /// </summary>
-        private System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
+        private readonly System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
 
         /// <summary>
         /// コンストラクタ
@@ -57,8 +57,10 @@ namespace BookManager.Genre
                         using var reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            var genre = new GenreData();
-                            genre.GenreName = (string)reader["genrename"];
+                            var genre = new GenreData
+                            {
+                                GenreName = (string)reader["genrename"]
+                            };
                             result.Add(genre);
                         }
                     }
@@ -81,28 +83,26 @@ namespace BookManager.Genre
         public void InsertGenre(GenreData genre)
         {
             var quely = $"INSERT INTO genre (genrename) VALUES ('{genre.GenreName.Replace("'", "''")}')";
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
-                connection.Open();
-                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
+                try
                 {
-                    try
+                    using (var command = new SqliteCommand(quely, connection))
                     {
-                        using (var command = new SqliteCommand(quely, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
                     }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine($"InsertGenre() is Error! ({e.Message}");
-                        transaction.Rollback();
-                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"InsertGenre() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
 
         /// <summary>
@@ -112,28 +112,26 @@ namespace BookManager.Genre
         public void DeleteGenre(GenreData genre)
         {
             var quely = $"DELETE FROM genre WHERE genrename = '{genre.GenreName.Replace("'", "''")}'";
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
-                connection.Open();
-                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
+                try
                 {
-                    try
+                    using (var command = new SqliteCommand(quely, connection))
                     {
-                        using (var command = new SqliteCommand(quely, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
                     }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine($"DeleteGenre() is Error! ({e.Message}");
-                        transaction.Rollback();
-                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"DeleteGenre() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
     }
 }

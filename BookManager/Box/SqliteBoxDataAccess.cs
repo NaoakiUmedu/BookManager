@@ -15,7 +15,7 @@ namespace BookManager.Box
         /// <summary>
         /// アイソレーションレベル
         /// </summary>
-        private System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
+        private readonly System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
 
         /// <summary>
         /// コンストラクタ
@@ -82,28 +82,26 @@ namespace BookManager.Box
         public void InsertBox(BoxData box)
         {
             var quely = $"INSERT INTO box (boxname) VALUES ('{box.BoxName.Replace("'", "''")}')";
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
-                connection.Open();
-                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
+                try
                 {
-                    try
+                    using (var command = new SqliteCommand(quely, connection))
                     {
-                        using (var command = new SqliteCommand(quely, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
                     }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine($"InsertBox() is Error! ({e.Message}");
-                        transaction.Rollback();
-                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"InsertBox() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
 
         /// <summary>
@@ -113,28 +111,26 @@ namespace BookManager.Box
         public void DeleteBox(BoxData box)
         {
             var quely = $"DELETE FROM box WHERE boxname = '{box.BoxName.Replace("'", "''")}'";
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
-                connection.Open();
-                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
+                try
                 {
-                    try
+                    using (var command = new SqliteCommand(quely, connection))
                     {
-                        using (var command = new SqliteCommand(quely, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
                     }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine($"DeleteBox() is Error! ({e.Message}");
-                        transaction.Rollback();
-                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"DeleteBox() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
     }
 }

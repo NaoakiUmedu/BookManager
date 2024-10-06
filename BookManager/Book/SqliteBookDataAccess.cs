@@ -11,12 +11,12 @@ namespace BookManager.Book
         /// <summary>
         /// DBファイルのパス
         /// </summary>
-        private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
+        private readonly string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
         /// アイソレーションレベル
         /// </summary>
-        private System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
+        private readonly System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
 
         /// <summary>
         /// コンストラクタ
@@ -115,7 +115,11 @@ namespace BookManager.Book
         /// </summary>
         /// <param name="book">蔵書</param>
         /// <returns>INSERT文</returns>
-        private string GenerateInsertQuery(BookData book)
+        /// <remarks>
+        /// コード解析結果CA1822に対応 パフォーマンス上優位なためstaticとした
+        /// staticとした理由はそれだけなので、必用があればstaticを外しても問題ない
+        /// </remarks>
+        private static string GenerateInsertQuery(BookData book)
         {
             var query = string.Empty;
             query += $"INSERT INTO book";
@@ -123,7 +127,7 @@ namespace BookManager.Book
             query += "(bookid, bookname, author, genre, position, box)";
             query += " ";
             query += "VALUES";
-            query += $"('{book.Id.ToString()}', '{book.BookName.Replace("'", "''")}', '{book.Auther.Replace("'", "''")}', '{book.Genre.Replace("'", "''")}', '{book.Position.Replace("'", "''")}', '{book.Box.Replace("'", "''")}')";
+            query += $"('{book.Id}', '{book.BookName.Replace("'", "''")}', '{book.Auther.Replace("'", "''")}', '{book.Genre.Replace("'", "''")}', '{book.Position.Replace("'", "''")}', '{book.Box.Replace("'", "''")}')";
             return query;
         }
 
@@ -160,7 +164,11 @@ namespace BookManager.Book
         /// </summary>
         /// <param name="book">本</param>
         /// <returns>DELETE文</returns>
-        private string GenerataDeleteQuery(BookData book)
+        /// <remarks>
+        /// コード解析結果CA1822に対応 パフォーマンス上優位なためstaticとした
+        /// staticとした理由はそれだけなので、必用があればstaticを外しても問題ない
+        /// </remarks>
+        private static string GenerataDeleteQuery(BookData book)
         {
             var query = string.Empty;
             query += $"DELETE FROM book WHERE bookid = '{book.Id}';";
@@ -174,35 +182,37 @@ namespace BookManager.Book
         public void UpdateBook(BookData book)
         {
             var quely = GenerateUpdateQuery(book);
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
-                connection.Open();
-                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
+                try
                 {
-                    try
+                    using (var command = new SqliteCommand(quely, connection))
                     {
-                        using (var command = new SqliteCommand(quely, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
                     }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine($"DeleteBook() is Error! ({e.Message}");
-                        transaction.Rollback();
-                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"DeleteBook() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
         /// <summary>
         /// UPDATE文を発行
         /// </summary>
         /// <param name="book">蔵書</param>
         /// <returns>UPDATE文</returns>
-        private string GenerateUpdateQuery(BookData book)
+        /// <remarks>
+        /// コード解析結果CA1822に対応 パフォーマンス上優位なためstaticとした
+        /// staticとした理由はそれだけなので、必用があればstaticを外しても問題ない
+        /// </remarks>
+        private static string GenerateUpdateQuery(BookData book)
         {
             var query = string.Empty;
             query += "UPDATE book";
