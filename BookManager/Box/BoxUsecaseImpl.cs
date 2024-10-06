@@ -8,7 +8,7 @@
         /// <summary>
         /// データアクセッサ(デフォルトでは本番環境)
         /// </summary>
-        private IBoxDataAccess dataAccess = new SqliteBoxDataAccess();
+        private readonly IBoxDataAccess dataAccess = new SqliteBoxDataAccess(isolationLevel: System.Data.IsolationLevel.Serializable);
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>

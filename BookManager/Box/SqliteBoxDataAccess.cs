@@ -10,17 +10,26 @@ namespace BookManager.Box
         /// <summary>
         /// DBファイルのパス(デフォルトは本番DB)
         /// </summary>
-        private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
+        private readonly string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
+
+        /// <summary>
+        /// アイソレーションレベル
+        /// </summary>
+        private System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="connectionString">DBファイルのパス(省略で本番ファイル)</param>
-        public SqliteBoxDataAccess(string? connectionString = null)
+        public SqliteBoxDataAccess(string? connectionString = null, System.Data.IsolationLevel? isolationLevel = null)
         {
             if (connectionString != null)
             {
                 this.dbFilePath = connectionString;
+            }
+            if (isolationLevel != null)
+            {
+                this.isolationLevel = (System.Data.IsolationLevel)isolationLevel;
             }
         }
 
@@ -35,17 +44,28 @@ namespace BookManager.Box
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using var transaction = connection.BeginTransaction(isolationLevel: isolationLevel);
+                try
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new SqliteCommand(quely, connection))
                     {
+                        command.Transaction = transaction;
+                        using var reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            var Box = new BoxData();
-                            Box.BoxName = (string)reader["boxname"];
+                            var Box = new BoxData
+                            {
+                                BoxName = (string)reader["boxname"]
+                            };
                             result.Add(Box);
                         }
                     }
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"SelectAllBox() is Error! ({e.Message}");
+                    transaction.Rollback();
                 }
                 connection.Close();
             }
@@ -62,9 +82,21 @@ namespace BookManager.Box
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
                 {
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        using (var command = new SqliteCommand(quely, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Error.WriteLine($"InsertBox() is Error! ({e.Message}");
+                        transaction.Rollback();
+                    }
                 }
                 connection.Close();
             }
@@ -80,9 +112,21 @@ namespace BookManager.Box
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
                 {
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        using (var command = new SqliteCommand(quely, connection))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Error.WriteLine($"DeleteBox() is Error! ({e.Message}");
+                        transaction.Rollback();
+                    }
                 }
                 connection.Close();
             }

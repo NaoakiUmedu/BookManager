@@ -54,24 +54,26 @@ namespace BookManager.Book
                         using var reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            var book = new BookData();
-                            book.Id = Guid.Parse((string)reader["bookid"]);
-                            book.BookName = (string)reader["bookname"];
-                            book.Auther = (string)reader["author"];
-                            book.Genre = (string)reader["genre"];
-                            book.Position = (string)reader["position"];
-                            book.Box = (string)reader["box"];
+                            var book = new BookData
+                            {
+                                Id = Guid.Parse((string)reader["bookid"]),
+                                BookName = (string)reader["bookname"],
+                                Auther = (string)reader["author"],
+                                Genre = (string)reader["genre"],
+                                Position = (string)reader["position"],
+                                Box = (string)reader["box"]
+                            };
                             result.Add(book);
                         }
                     }
                     transaction.Commit();
-                    connection.Close();
                 }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine($"SelectAllBook() is Error! ({e.Message}");
                     transaction.Rollback();
                 }
+                connection.Close();
             }
             return result;
         }
