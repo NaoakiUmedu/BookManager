@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BookManager.Book
 {
@@ -35,10 +36,13 @@ namespace BookManager.Book
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
+                try
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new SqliteCommand(quely, connection))
                     {
+                        command.Transaction = transaction;
+                        using var reader = command.ExecuteReader();
                         while (reader.Read())
                         {
                             var book = new BookData();
@@ -51,8 +55,14 @@ namespace BookManager.Book
                             result.Add(book);
                         }
                     }
+                    transaction.Commit();
+                    connection.Close();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"SelectAllBook() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
             return result;
         }
@@ -64,15 +74,26 @@ namespace BookManager.Book
         public void InsertBook(BookData book)
         {
             var quely = GenerateInsertQuery(book);
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable))
             {
-                connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                try
                 {
-                    command.ExecuteNonQuery();
+                    using (var command = new SqliteCommand(quely, connection))
+                    {
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"InsertBook() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
 
         /// <summary>
@@ -99,15 +120,26 @@ namespace BookManager.Book
         public void DeleteBook(BookData book)
         {
             var quely = GenerataDeleteQuery(book);
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable))
             {
-                connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                try
                 {
-                    command.ExecuteNonQuery();
+                    using (var command = new SqliteCommand(quely, connection))
+                    {
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
+                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"DeleteBook() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
         /// <summary>
         /// DELETE文を発行
@@ -131,9 +163,22 @@ namespace BookManager.Book
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable))
                 {
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        using (var command = new SqliteCommand(quely, connection))
+                        {
+                            command.Transaction = transaction;
+                            command.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Error.WriteLine($"DeleteBook() is Error! ({e.Message}");
+                        transaction.Rollback();
+                    }
                 }
                 connection.Close();
             }
