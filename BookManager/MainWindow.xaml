@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BookManager"
         mc:Ignorable="d"
                 Title="メニュー" SizeToContent="WidthAndHeight">
-    <Grid>
+    <Grid Background="AliceBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
