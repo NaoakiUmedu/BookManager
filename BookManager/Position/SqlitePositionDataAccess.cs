@@ -11,12 +11,12 @@ namespace BookManager.Position
         /// <summary>
         /// DBファイルのパス(デフォルトは本番DB)
         /// </summary>
-        private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
+        private readonly string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
         /// アイソレーションレベル
         /// </summary>
-        private System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
+        private readonly System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
 
         /// <summary>
         /// コンストラクタ
@@ -57,8 +57,10 @@ namespace BookManager.Position
                         using var reader = command.ExecuteReader();
                         while (reader.Read())
                         {
-                            var position = new PositionData();
-                            position.Position = (string)reader["position"];
+                            var position = new PositionData
+                            {
+                                Position = (string)reader["position"]
+                            };
                             result.Add(position);
                         }
                     }
@@ -81,28 +83,26 @@ namespace BookManager.Position
         public void InsertPosition(PositionData position)
         {
             var quely = $"INSERT INTO position (position) VALUES ('{position.Position.Replace("'", "''")}')";
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
-                connection.Open();
-                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
+                try
                 {
-                    try
+                    using (var command = new SqliteCommand(quely, connection))
                     {
-                        using (var command = new SqliteCommand(quely, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
                     }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine($"InsertPosition() is Error! ({e.Message}");
-                        transaction.Rollback();
-                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"InsertPosition() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
 
         /// <summary>
@@ -112,28 +112,26 @@ namespace BookManager.Position
         public void DeletePosition(PositionData position)
         {
             var quely = $"DELETE FROM position WHERE position = '{position.Position.Replace("'", "''")}'";
-            using (var connection = new SqliteConnection(dbFilePath))
+            using var connection = new SqliteConnection(dbFilePath);
+            connection.Open();
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
-                connection.Open();
-                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
+                try
                 {
-                    try
+                    using (var command = new SqliteCommand(quely, connection))
                     {
-                        using (var command = new SqliteCommand(quely, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.ExecuteNonQuery();
-                        }
-                        transaction.Commit();
+                        command.Transaction = transaction;
+                        command.ExecuteNonQuery();
                     }
-                    catch (Exception e)
-                    {
-                        Console.Error.WriteLine($"DeletePosition() is Error! ({e.Message}");
-                        transaction.Rollback();
-                    }
+                    transaction.Commit();
                 }
-                connection.Close();
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"DeletePosition() is Error! ({e.Message}");
+                    transaction.Rollback();
+                }
             }
+            connection.Close();
         }
     }
 }
