@@ -8,7 +8,7 @@
         /// <summary>
         /// データアクセッサ(デフォルトでは本番環境)
         /// </summary>
-        private IGenreDataAccess dataAccess = new SqliteGenreDataAccess();
+        private readonly IGenreDataAccess dataAccess = new SqliteGenreDataAccess(isolationLevel:System.Data.IsolationLevel.Serializable);
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>

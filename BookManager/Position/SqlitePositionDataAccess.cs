@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using BookManager.Genre;
+using Microsoft.Data.Sqlite;
 
 namespace BookManager.Position
 {
@@ -13,14 +14,26 @@ namespace BookManager.Position
         private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
+        /// アイソレーションレベル
+        /// </summary>
+        private System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="connectionString">DBファイルのパス(省略で本番ファイル)</param>
-        public SqlitePositionDataAccess(string? connectionString = null)
+        /// <param name="isolationLevel">アイソレーションレベル(省略でSerializable)</param>
+        public SqlitePositionDataAccess(
+            string? connectionString = null,
+            System.Data.IsolationLevel? isolationLevel = null)
         {
             if (connectionString != null)
             {
                 this.dbFilePath = connectionString;
+            }
+            if (isolationLevel != null)
+            {
+                this.isolationLevel = (System.Data.IsolationLevel)isolationLevel;
             }
         }
 
@@ -35,10 +48,13 @@ namespace BookManager.Position
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using var transaction = connection.BeginTransaction(isolationLevel: isolationLevel);
+                try
                 {
-                    using (var reader = command.ExecuteReader())
+                    using (var command = new SqliteCommand(quely, connection))
                     {
+                        command.Transaction = transaction;
+                        using var reader = command.ExecuteReader();
                         while (reader.Read())
                         {
                             var position = new PositionData();
@@ -46,6 +62,12 @@ namespace BookManager.Position
                             result.Add(position);
                         }
                     }
+                    transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine($"SelectAllPosition() is Error! ({e.Message}");
+                    transaction.Rollback();
                 }
                 connection.Close();
             }
@@ -62,9 +84,22 @@ namespace BookManager.Position
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
                 {
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        using (var command = new SqliteCommand(quely, connection))
+                        {
+                            command.Transaction = transaction;
+                            command.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Error.WriteLine($"InsertPosition() is Error! ({e.Message}");
+                        transaction.Rollback();
+                    }
                 }
                 connection.Close();
             }
@@ -80,9 +115,22 @@ namespace BookManager.Position
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var command = new SqliteCommand(quely, connection))
+                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
                 {
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        using (var command = new SqliteCommand(quely, connection))
+                        {
+                            command.Transaction = transaction;
+                            command.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Error.WriteLine($"DeletePosition() is Error! ({e.Message}");
+                        transaction.Rollback();
+                    }
                 }
                 connection.Close();
             }

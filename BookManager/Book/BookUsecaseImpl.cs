@@ -8,7 +8,7 @@
         /// <summary>
         /// DB用データアクセッサ
         /// </summary>
-        private IBookDataAccess dbDataAccesser = new SqliteBookDataAccess();
+        private readonly IBookDataAccess dbDataAccesser = new SqliteBookDataAccess(isolationLevel: System.Data.IsolationLevel.Serializable);
         /// <summary>
         /// インポート・エクスポート用データアクセッサ
         /// </summary>
