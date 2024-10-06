@@ -8,7 +8,7 @@
         /// <summary>
         /// データアクセッサ(デフォルトでは本番環境)
         /// </summary>
-        private IPositionDataAccess dataAccess = new SqlitePositionDataAccess();
+        private IPositionDataAccess dataAccess = new SqlitePositionDataAccess(isolationLevel:System.Data.IsolationLevel.Serializable);
         /// <summary>
         /// コンストラクタ(依存性注入用)
         /// </summary>
