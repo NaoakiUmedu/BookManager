@@ -14,14 +14,23 @@ namespace BookManager.Book
         private string dbFilePath = @"Data Source=C:\MyProgramFiles\BookManager\DB\db.db";
 
         /// <summary>
+        /// アイソレーションレベル
+        /// </summary>
+        private System.Data.IsolationLevel isolationLevel = System.Data.IsolationLevel.Serializable;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="connectionString">DBファイルのパス(省略で本番ファイル)</param>
-        public SqliteBookDataAccess(string? connectionString = null)
+        public SqliteBookDataAccess(string? connectionString = null, System.Data.IsolationLevel? isolationLevel = null)
         {
             if(connectionString != null)
             {
                 this.dbFilePath = connectionString;
+            }
+            if(isolationLevel != null)
+            {
+                this.isolationLevel = (System.Data.IsolationLevel)isolationLevel;
             }
         }
 
@@ -36,7 +45,7 @@ namespace BookManager.Book
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable);
+                using var transaction = connection.BeginTransaction(isolationLevel: isolationLevel);
                 try
                 {
                     using (var command = new SqliteCommand(quely, connection))
@@ -76,7 +85,7 @@ namespace BookManager.Book
             var quely = GenerateInsertQuery(book);
             using var connection = new SqliteConnection(dbFilePath);
             connection.Open();
-            using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable))
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
                 try
                 {
@@ -122,7 +131,7 @@ namespace BookManager.Book
             var quely = GenerataDeleteQuery(book);
             using var connection = new SqliteConnection(dbFilePath);
             connection.Open();
-            using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable))
+            using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
             {
                 try
                 {
@@ -163,7 +172,7 @@ namespace BookManager.Book
             using (var connection = new SqliteConnection(dbFilePath))
             {
                 connection.Open();
-                using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.Serializable))
+                using (SqliteTransaction transaction = connection.BeginTransaction(isolationLevel: isolationLevel))
                 {
                     try
                     {
